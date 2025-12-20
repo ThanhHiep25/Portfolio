@@ -41,7 +41,8 @@ import {
   Flag,
   Search,
   Settings,
-  Rocket
+  Rocket,
+  Instagram
 } from 'lucide-react';
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800";
@@ -86,6 +87,69 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
       document.body.style.overflow = 'unset';
     };
   }, []);
+
+  const [copied, setCopied] = useState(false);
+
+  const projectUrl = typeof window !== 'undefined' ? `${window.location.origin}?project=${project.project_id}` : '';
+
+  // Update meta tags for social sharing
+  const updateMetaTags = () => {
+    if (typeof document === 'undefined') return;
+    
+    // Update OG tags
+    const updateMetaTag = (property: string, content: string) => {
+      let element = document.querySelector(`meta[property="${property}"]`);
+      if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute('property', property);
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', content);
+    };
+
+    const updateMetaName = (name: string, content: string) => {
+      let element = document.querySelector(`meta[name="${name}"]`);
+      if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute('name', name);
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', content);
+    };
+
+    updateMetaTag('og:title', `${project.project_name} | Dự án của Nguyễn Hiệp`);
+    updateMetaTag('og:description', project.project_des);
+    updateMetaTag('og:image', project.project_img || '');
+    updateMetaTag('og:url', projectUrl);
+    updateMetaTag('twitter:title', `${project.project_name} | Dự án của Nguyễn Hiệp`);
+    updateMetaTag('twitter:description', project.project_des);
+    updateMetaTag('twitter:image', project.project_img || '');
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(projectUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShare = (platform: string) => {
+    updateMetaTags();
+    
+    // Add delay to ensure meta tags are updated
+    setTimeout(() => {
+      const shareUrl = shareLinks[platform as keyof typeof shareLinks];
+      if (shareUrl) {
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+      }
+    }, 100);
+  };
+
+  const shareLinks = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(projectUrl)}&quote=${encodeURIComponent(`${project.project_name} - ${project.project_des}`)}`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(projectUrl)}&text=${encodeURIComponent(`Xem dự án "${project.project_name}": ${project.project_des}`)}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(projectUrl)}`,
+    instagram: `https://instagram.com/`,
+  };
 
   const timelineSteps = [
     { label: 'Khởi tạo', icon: <Search size={14} />, status: 'done' },
@@ -207,6 +271,67 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
                   Mã nguồn <Github size={14} />
                 </a>
               )}
+            </div>
+
+            {/* Share Section */}
+            <div className="mb-12 pb-12 border-b border-gray-100 dark:border-white/5">
+              <div className="flex items-center gap-2 mb-6">
+                <Share2 size={16} className="text-primary" />
+                <h3 className="text-[10px] font-black text-gray-900 dark:text-white uppercase tracking-[0.2em]">Chia sẻ dự án</h3>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                {/* Facebook Share */}
+                <button
+                  onClick={() => handleShare('facebook')}
+                  className="p-4 flex items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 transition-all border border-blue-100 dark:border-blue-500/20 group"
+                  aria-label="Chia sẻ lên Facebook"
+                  title="Chia sẻ lên Facebook"
+                >
+                  <Facebook size={20} className="group-hover:scale-110 transition-transform" />
+                </button>
+
+                {/* Twitter Share */}
+                <button
+                  onClick={() => handleShare('twitter')}
+                  className="p-4 flex items-center justify-center rounded-2xl bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 transition-all border border-sky-100 dark:border-sky-500/20 group"
+                  aria-label="Chia sẻ lên Twitter"
+                  title="Chia sẻ lên Twitter"
+                >
+                  <Twitter size={20} className="group-hover:scale-110 transition-transform" />
+                </button>
+
+                {/* LinkedIn Share */}
+                <button
+                  onClick={() => handleShare('linkedin')}
+                  className="p-4 flex items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 transition-all border border-blue-100 dark:border-blue-500/20 group"
+                  aria-label="Chia sẻ lên LinkedIn"
+                  title="Chia sẻ lên LinkedIn"
+                >
+                  <Linkedin size={20} className="group-hover:scale-110 transition-transform" />
+                </button>
+
+                {/* Instagram Share */}
+                <a
+                  href={shareLinks.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 flex items-center justify-center rounded-2xl bg-pink-50 dark:bg-pink-500/10 hover:bg-pink-100 dark:hover:bg-pink-500/20 text-pink-600 dark:text-pink-400 transition-all border border-pink-100 dark:border-pink-500/20 group"
+                  aria-label="Chia sẻ lên Instagram"
+                  title="Chia sẻ lên Instagram"
+                >
+                  <Instagram size={20} className="group-hover:scale-110 transition-transform" />
+                </a>
+
+                {/* Copy Link */}
+                <button
+                  onClick={handleCopyLink}
+                  className="p-4 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-600 dark:text-gray-400 transition-all border border-gray-200 dark:border-white/20 group"
+                  aria-label="Sao chép liên kết"
+                  title="Sao chép liên kết"
+                >
+                  {copied ? <Check size={20} className="text-green-600 dark:text-green-400" /> : <Copy size={20} className="group-hover:scale-110 transition-transform" />}
+                </button>
+              </div>
             </div>
           </div>
 
