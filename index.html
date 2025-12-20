@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO Primary Tags -->
+    <title>Nguyễn Hiệp | Senior Software Engineer</title>
+    <meta name="description" content="Khám phá Portfolio của Nguyễn Hiệp - Kỹ sư phần mềm chuyên sâu về React, Next.js, Node.js và tích hợp AI. Xem các dự án thực chiến và tương tác với trợ lý Alex AI thông minh." />
+    <meta name="keywords" content="Nguyễn Hiệp, Software Engineer, Portfolio, React Developer, Next.js, AI Engineer, Fullstack Developer, Web Developer Việt Nam" />
+    <meta name="author" content="Nguyễn Hiệp" />
+    <link rel="canonical" href="https://nguyenhiep.dev/" />
+    <link rel="icon" href="/assets/webdev-1.svg" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nguyenhiep.dev/" />
+    <meta property="og:title" content="Nguyễn Hiệp | Software Engineer & AI Architect" />
+    <meta property="og:description" content="Kiến tạo sản phẩm số với trải nghiệm mượt mà và mã nguồn tối ưu. Xem kho dự án thực chiến ngay!" />
+    <meta property="og:image" content="/assets/webdev-1.svg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://g.dev/nguyenthanhhiep" />
+    <meta property="twitter:title" content="Nguyễn Hiệp | Senior Software Engineer Portfolio" />
+    <meta property="twitter:description" content="Chuyên sâu React, Node.js và AI. Khám phá các giải pháp công nghệ hiện đại." />
+    <meta property="twitter:image" content="/assets/webdev-1.svg" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Nguyễn Hiệp",
+        "alternateName": "Nguyen Hiep",
+        "jobTitle": "Software Engineer",
+        "url": "https://g.dev/nguyenthanhhiep",
+        "image": "/assets/webdev-1.svg",
+        "description": "Khám phá Portfolio của Nguyễn Hiệp - Kỹ sư phần mềm chuyên sâu về React, Next.js, Node.js và tích hợp AI. Xem các dự án thực chiến và tương tác với trợ lý Alex AI thông minh.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Hồ Chí Minh",
+          "addressCountry": "VN"
+        },
+        "email": "hiepnguyen.250402@gmail.com",
+        "telephone": "+84866853100",
+        "sameAs": [
+          "https://github.com/ThanhHiep25",
+          "https://www.linkedin.com/in/nguyen-thanh-hiep-1694a9222/",
+          "https://www.facebook.com/nguyen.hiep.25.04/"
+        ],
+        "knowsAbout": ["React", "Next.js", "Software Engineering", "Artificial Intelligence", "TypeScript", "Node.js", "Golang"]
+      }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cập nhật font Plus Jakarta Sans hỗ trợ tiếng Việt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', '"Noto Sans"', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', '"Noto Color Emoji"'],
+            },
+            colors: {
+              primary: 'var(--primary-color)',
+              'primary-hover': 'var(--primary-hover)',
+              'primary-active': 'var(--primary-active)',
+            },
+            keyframes: {
+              shimmer: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(100%)' },
+              }
+            },
+            animation: {
+              shimmer: 'shimmer 2s infinite linear',
+              'spin-slow': 'spin 8s linear infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --primary-color: #10b981;
+        --primary-hover: #059669;
+        --primary-active: #047857;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+        overflow-x: hidden;
+      }
+      body {
+        transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: none;
+        /* Khử răng cưa font chữ trên macOS/iOS */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      @media (max-width: 1024px) {
+        body { cursor: auto; }
+      }
+
+      .gpu-accelerated {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+        will-change: transform, opacity;
+      }
+
+      .blur-gradual {
+        mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+        backdrop-filter: blur(12px);
+      }
+      
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary-color);
+        border-radius: 20px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+      }
+      
+      .custom-cursor {
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1), height 0.3s cubic-bezier(0.19, 1, 0.22, 1), background-color 0.3s;
+        will-change: transform;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .custom-cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        will-change: transform;
+        transform: translate3d(0, 0, 0);
+      }
+
+      @keyframes gradient-x {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+      .animate-gradient-x {
+        animation: gradient-x 15s ease infinite;
+        background-size: 200% 200%;
+      }
+
+      .theme-transition {
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "react-intersection-observer": "https://esm.sh/react-intersection-observer@^10.0.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 selection:bg-primary selection:text-white antialiased theme-transition font-sans">
+    <div id="root"></div>
+    <div id="cursor-dot" class="custom-cursor-dot hidden lg:block"></div>
+    <div id="cursor-outline" class="custom-cursor hidden lg:block"></div>
+    
+    <script>
+      const dot = document.getElementById('cursor-dot');
+      const outline = document.getElementById('cursor-outline');
+      
+      let mouseX = 0, mouseY = 0;
+      let dotX = 0, dotY = 0;
+      let outlineX = 0, outlineY = 0;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        const target = e.target;
+        if (target.closest('button') || target.closest('a') || target.closest('.cursor-pointer')) {
+          outline.style.width = '64px';
+          outline.style.height = '64px';
+          outline.style.backgroundColor = 'rgba(var(--primary-rgb, 16, 185, 129), 0.1)';
+          outline.style.borderColor = 'transparent';
+        } else {
+          outline.style.width = '40px';
+          outline.style.height = '40px';
+          outline.style.backgroundColor = 'transparent';
+          outline.style.borderColor = 'var(--primary-color)';
+        }
+      });
+
+      function animate() {
+        dotX += (mouseX - dotX) * 1;
+        dotY += (mouseY - dotY) * 1;
+        outlineX += (mouseX - outlineX) * 0.15;
+        outlineY += (mouseY - outlineY) * 0.15;
+
+        dot.style.transform = `translate3d(${dotX - 4}px, ${dotY - 4}px, 0)`;
+        outline.style.transform = `translate3d(${outlineX - outline.offsetWidth/2}px, ${outlineY - outline.offsetHeight/2}px, 0)`;
+
+        requestAnimationFrame(animate);
+      }
+      animate();
+    </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

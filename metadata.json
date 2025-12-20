@@ -1,0 +1,7 @@
+{
+  "name": "Portfolio Tương Tác Cấp Cao",
+  "description": "Portfolio hiện đại với trợ lý AI giọng nói Alex, biểu đồ năng lực Radar và hiệu ứng Floating Tech Elements.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
