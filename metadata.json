@@ -1,5 +1,11 @@
 {
-  "name": "Portfolio Tương Tác Cấp Cao",
+  "name": "Portfolio ThemeProfiel",
+  "short_name": "Portfolio",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/",
   "description": "Portfolio hiện đại với trợ lý AI giọng nói Alex, biểu đồ năng lực Radar và hiệu ứng Floating Tech Elements.",
   "requestFramePermissions": [
     "microphone"
