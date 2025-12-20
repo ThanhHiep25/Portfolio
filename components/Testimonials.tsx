@@ -8,19 +8,19 @@ const testimonials = [
     name: "MEO meo Meo",
     role: "Senior Tech @MEO_Corporation",
     text: "Hiệp là một kỹ sư có tư duy UI rất tốt. Cậu ấy không chỉ viết code chạy được, mà còn viết code đẹp và tối ưu hiệu suất cực tốt.",
-    avatar: "/assets/uv/meme-meo-cuoi-5.jpg"
+    avatar: "/uv/meme-meo-cuoi-5.jpg"
   },
   {
     name: "MEO méo Meo",
     role: "Project Manager",
     text: "Khả năng nắm bắt công nghệ mới của Hiệp thật kinh ngạc. Sự sáng tạo không giới hạn của cậu ấy.",
-    avatar: "/assets/uv/meme-meo-cuoi-27.jpg"
+    avatar: "/uv/meme-meo-cuoi-27.jpg"
   },
   {
     name: "Hoàng Thị MEO",
     role: "UX Designer",
     text: "Làm việc với Hiệp rất nhàn vì cậu ấy hiểu sâu về UX. Mọi hiệu ứng chuyển cảnh đều được tính toán kỹ lưỡng để mang lại trải nghiệm tốt nhất.",
-    avatar: "/assets/uv/meme-meo-cuoi-8.jpg"
+    avatar: "/uv/meme-meo-cuoi-8.jpg"
   }
 ];
 
