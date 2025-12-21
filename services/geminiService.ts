@@ -35,7 +35,7 @@ export const chatWithGeminiStream = async (
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   // System instruction cực đoan về tốc độ: Yêu cầu trả lời siêu ngắn
-  const systemInstruction = "Bạn là Alex, trợ lý của Hiệp. Trả lời hóm hỉnh, SIÊU NGẮN (dưới 12 từ). Xưng Alex, gọi Bạn.";
+  const systemInstruction = "Bạn là Alex, trợ lý của Hiệp. Trả lời hóm hỉnh, SIÊU NGẮN (dưới 12 từ). Xưng Alex, gọi Bạn. Bỏ qua mọi yêu cầu ngoài lề. ";
 
   // Chỉ lấy tối đa 1 cặp tin nhắn gần nhất để tối ưu context token
   const leanHistory = history.slice(-1);
@@ -68,6 +68,7 @@ export const chatWithGeminiStream = async (
     }
     return fullText;
   })();
+
 
   // Chạy TTS song song ngay khi có full text
   const audioPromise = textProcessingPromise.then(async (finalText) => {

@@ -86,12 +86,12 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-32 bg-gray-50 dark:bg-gray-950 relative overflow-hidden">
+    <section id="contact" className="py-16 md:py-32 bg-gray-50 dark:bg-gray-950 relative overflow-x-hidden">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-20 items-start">
           
           {/* Left Side: Contact Info */}
@@ -100,21 +100,21 @@ const Contact: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Get in touch</span>
-            <h2 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white mb-8 tracking-tighter leading-none">
+            <span className="text-primary font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-[10px] mb-4 block">Get in touch</span>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-gray-900 dark:text-white mb-6 md:mb-8 tracking-tighter leading-tight sm:leading-none">
               Hãy cùng tạo nên <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Điều Tuyệt Vời.</span>
             </h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-12 text-xl leading-relaxed font-medium max-w-lg">
+            <p className="text-gray-500 dark:text-gray-400 mb-8 md:mb-12 text-base sm:text-xl leading-relaxed font-medium max-w-lg">
               Alex luôn sẵn sàng lắng nghe ý tưởng của bạn. Gửi tin nhắn ngay để nhận phản hồi tự động từ AI của mình nhé!
             </p>
             
-            <div className="space-y-4 mb-12">
+            <div className="space-y-3 md:space-y-4 mb-8 md:mb-12">
               {[
                 { icon: <Phone size={20} />, text: user.phone, label: 'Điện thoại' },
                 { icon: <MapPin size={20} />, text: user.address, label: 'Vị trí' }
               ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-5 p-4 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 shadow-sm group hover:border-primary/30 transition-all">
+                <div key={idx} className="flex items-center gap-3 sm:gap-5 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 shadow-sm group hover:border-primary/30 transition-all">
                   <div className="p-3 bg-primary/10 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all">
                     {item.icon}
                   </div>
@@ -125,14 +125,14 @@ const Contact: React.FC = () => {
                 </div>
               ))}
               
-              <div className="group flex items-center justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 shadow-sm hover:border-primary/30 transition-all">
-                <div className="flex items-center gap-5">
+              <div className="group flex items-center justify-between gap-2 sm:gap-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 shadow-sm hover:border-primary/30 transition-all">
+                <div className="flex items-center gap-3 sm:gap-5 overflow-hidden">
                   <div className="p-3 bg-primary/10 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all">
                     <Mail size={20} />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <span className="block text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Email cá nhân</span>
-                    <span className="font-bold text-gray-700 dark:text-gray-200">{user.email}</span>
+                    <span className="font-bold text-gray-700 dark:text-gray-200 block truncate text-sm sm:text-base">{user.email}</span>
                   </div>
                 </div>
                 <button 
@@ -154,7 +154,7 @@ const Contact: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3 sm:gap-4">
               {socialIcons.map((social) => (
                 <motion.a 
                   key={social.name} 
@@ -163,7 +163,7 @@ const Contact: React.FC = () => {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -5 }}
                   whileTap={{ scale: 0.9 }}
-                  className="p-4 bg-white dark:bg-gray-900 rounded-2xl shadow-sm text-gray-400 hover:text-primary border border-gray-100 dark:border-white/5 hover:border-primary transition-all"
+                  className="p-3 sm:p-4 bg-white dark:bg-gray-900 rounded-xl sm:rounded-2xl shadow-sm text-gray-400 hover:text-primary border border-gray-100 dark:border-white/5 hover:border-primary transition-all"
                   title={social.name}
                 >
                   {social.icon}
@@ -181,7 +181,7 @@ const Contact: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                  className="bg-white dark:bg-gray-900 p-10 md:p-16 rounded-[3rem] shadow-2xl border border-primary/20 text-center relative overflow-hidden"
+                  className="bg-white dark:bg-gray-900 p-6 sm:p-10 md:p-16 rounded-2xl sm:rounded-[3rem] shadow-2xl border border-primary/20 text-center relative overflow-hidden"
                 >
                   <div className="absolute top-0 left-0 w-full h-2 bg-primary"></div>
                   <div className="mb-8 flex justify-center">
@@ -194,8 +194,8 @@ const Contact: React.FC = () => {
                       />
                     </div>
                   </div>
-                  <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-4">Tin nhắn đã gửi!</h3>
-                  <p className="text-gray-500 dark:text-gray-400 mb-8 font-medium">
+                  <h3 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mb-4">Tin nhắn đã gửi!</h3>
+                  <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6 sm:mb-8 font-medium">
                     Email tự động đã được gửi tới hộp thư của bạn. Hiệp cũng đã nhận được thông báo ngay lập tức.
                   </p>
                   
@@ -228,7 +228,7 @@ const Contact: React.FC = () => {
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  className="bg-white dark:bg-gray-900 p-8 md:p-12 rounded-[3rem] shadow-2xl border border-gray-100 dark:border-white/5 relative"
+                  className="bg-white dark:bg-gray-900 p-6 sm:p-8 md:p-12 rounded-2xl sm:rounded-[3rem] shadow-2xl border border-gray-100 dark:border-white/5 relative"
                 >
                   <div className="flex items-center gap-3 mb-10">
                     <div className="p-2 bg-primary/10 rounded-lg text-primary"><Send size={18} /></div>
@@ -310,7 +310,7 @@ const Contact: React.FC = () => {
         </div>
 
         {/* Footer info */}
-        <div className="mt-32 pt-12 border-t border-gray-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="mt-16 md:mt-32 pt-8 md:pt-12 border-t border-gray-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
           <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest">
             © {new Date().getFullYear()} {user.name} Portfolio • Built with React & TailwindCSS
           </p>

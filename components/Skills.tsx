@@ -1,18 +1,18 @@
 
 import React, { useMemo } from 'react';
 import { motion, Variants } from 'framer-motion';
-import { 
-  Code, 
-  Globe, 
-  Award, 
-  Layers, 
-  Cpu, 
-  Terminal, 
-  Zap, 
-  Database, 
-  Layout, 
-  Server, 
-  Box, 
+import {
+  Code,
+  Globe,
+  Award,
+  Layers,
+  Cpu,
+  Terminal,
+  Zap,
+  Database,
+  Layout,
+  Server,
+  Box,
   Smartphone,
   Figma,
   Flame
@@ -39,7 +39,7 @@ const getSkillIcon = (name: string) => {
 };
 
 const SkillCard: React.FC<{ name: string; level: string }> = ({ name, level }) => (
-  <motion.div 
+  <motion.div
     variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }}
     whileHover={{ y: -5, scale: 1.02 }}
     className="group p-5 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-primary/30 transition-all flex flex-col gap-3"
@@ -54,7 +54,7 @@ const SkillCard: React.FC<{ name: string; level: string }> = ({ name, level }) =
       <span className="text-[10px] font-black text-primary bg-primary/10 px-2 py-0.5 rounded-full">{level}%</span>
     </div>
     <div className="h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-      <motion.div 
+      <motion.div
         initial={{ width: 0 }}
         whileInView={{ width: `${level}%` }}
         viewport={{ once: true }}
@@ -167,16 +167,32 @@ const Skills: React.FC = () => {
             </div>
             <div className="grid gap-4">
               {user.certificate.map((cert) => (
-                <motion.a 
-                  key={cert.certificate_id} 
+                <motion.a
+                  key={cert.certificate_id}
                   whileHover={{ scale: 1.02, x: 5 }}
-                  href={cert.certificate_link} 
-                  target="_blank" 
+                  href={cert.certificate_link}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="group block p-5 rounded-2xl bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-primary transition-all shadow-sm"
                 >
-                  <div className="font-black text-gray-900 dark:text-white group-hover:text-primary transition-colors text-base">{cert.certificate_name}</div>
-                  <div className="text-[10px] font-black text-gray-400 mt-2 uppercase tracking-[0.2em]">{cert.certificate_des} — {cert.certificate_year}</div>
+                  <div className="
+                    flex items-center md:flex-row flex-col gap-4">
+                    {
+                      cert.certificate_img != '' && (
+                        <img
+                          src={cert.certificate_img}
+                          alt={cert.certificate_name}
+                          className="h-40 object-contain rounded-xl grayscale group-hover:grayscale-0 transition-all"
+                        />
+                      )
+                    }
+                    <div className="flex flex-col ml-4">
+                        <div className="font-black text-gray-900 dark:text-white group-hover:text-primary transition-colors text-base">{cert.certificate_name}</div>
+                    <div className="text-[10px] font-black text-gray-400 mt-2 uppercase tracking-[0.2em]">{cert.certificate_des} — {cert.certificate_year}</div>
+                    </div>
+                  
+                  </div>
+
                 </motion.a>
               ))}
             </div>

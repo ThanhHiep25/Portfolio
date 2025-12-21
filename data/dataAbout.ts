@@ -177,7 +177,7 @@ const userAbout : UsersAboutData = [
         certificate_id: 1,
         certificate_name: "Phần mềm Máy tính",
         certificate_year: "2022",
-        certificate_img: sof,
+        certificate_img: '',
         certificate_des: "Codelearn.io",
         certificate_link: "https://codelearn.io/share/0ee7e3a1-5429-4d7f-be2f-38aec9fddf84",
       },
@@ -185,10 +185,17 @@ const userAbout : UsersAboutData = [
         certificate_id: 2,
         certificate_name: "Phần cứng Máy tính",
         certificate_year: "2022",
-        certificate_img: har,
+        certificate_img: '',
         certificate_des: "Codelearn.io",
         certificate_link: "https://codelearn.io/share/a227874b-878c-4076-8da3-c6cf74002073",
-      },
+      },{
+        certificate_id: 3,
+        certificate_name: "BẰNG KHEN ĐẢNG CỘNG SẢN VIỆT NAM - ĐẢNG ỦY",
+        certificate_year: "2025",
+        certificate_img: '/cre__ph.jpg',
+        certificate_des: "ĐẢNG CỘNG SẢN VIỆT NAM",
+        certificate_link: "/cre__ph.jpg",
+      }
     ],
   },
 ];
