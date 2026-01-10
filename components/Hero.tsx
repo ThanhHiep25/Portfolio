@@ -1,8 +1,7 @@
 
 import React, { useState, useEffect, memo } from 'react';
-import { motion, useScroll, useTransform, Variants, useReducedMotion } from 'framer-motion';
+import { motion, useScroll,Variants, useReducedMotion } from 'framer-motion';
 import { 
-  Code, 
   Layers, 
   Database, 
   Terminal, 
@@ -10,7 +9,9 @@ import {
   Cpu, 
   Globe, 
   Box,
-  Zap
+  Zap,
+  Moon,
+  Sun
 } from 'lucide-react';
 import userAbout from '../data/dataAbout';
 
@@ -102,6 +103,9 @@ const Hero: React.FC = () => {
         <FloatingIcon icon={Cpu} color="text-orange-500" delay={0.5} initialPos={{ top: '40%', left: '25%' }} />
         <FloatingIcon icon={Box} color="text-cyan-500" delay={4} initialPos={{ bottom: '15%', left: '40%' }} />
         <FloatingIcon icon={Zap} color="text-yellow-500" delay={1.5} initialPos={{ top: '10%', right: '40%' }} />
+        <FloatingIcon icon={Globe} color="text-red-500" delay={2.5} initialPos={{ bottom: '30%', right: '30%' }} />
+        <FloatingIcon icon={Moon} color="text-gray-500" delay={3.5} initialPos={{ top: '20%', left: '60%' }} />
+        <FloatingIcon icon={Sun} color="text-gray-500" delay={4.5} initialPos={{ bottom: '40%', left: '60%' }} />
       </div>
 
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">

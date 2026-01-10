@@ -64,10 +64,6 @@ const Contact: React.FC = () => {
         contents: `Khách hàng tên ${formData.name} vừa gửi tin nhắn: "${formData.message}". Hãy viết 1 câu cảm ơn cực kỳ chuyên nghiệp, ngắn gọn (dưới 20 từ) để Alex gửi lại họ ngay lập tức. Xưng Alex, gọi Bạn.`,
       });
       setPersonalizedReply(response.text || `Cảm ơn ${formData.name}, Alex đã nhận được thông tin và sẽ phản hồi bạn sớm nhất!`);
-
-      // 2. Logic gửi Email (Giả lập hoặc dùng EmailJS)
-      // Để gửi thật, bạn cài đặt: npm install @emailjs/browser
-      // Sau đó dùng: emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formRef.current, 'YOUR_PUBLIC_KEY')
       
       console.log("Sending email with data:", formData);
       
@@ -86,7 +82,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-16 md:py-32 bg-gray-50 dark:bg-gray-950 relative overflow-x-hidden">
+    <section id="contact" className="py-16 md:py-32 bg-gray-50 dark:bg-gray-950 relative">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>

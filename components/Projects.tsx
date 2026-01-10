@@ -1,6 +1,6 @@
 
 // Fix: Added React import to resolve "Cannot find namespace 'React'" errors.
-import React, { useState, useEffect, useMemo, useRef, memo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, memo, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { mockProjects } from '../data/mockProjects';
 import { Project } from '../interfaces/user';
@@ -47,23 +47,50 @@ import {
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800";
 
-const getTechIcon = (name: string) => {
+const TECH_ICON_MAP: Record<string, React.ReactNode> = {
+  'react': <Layers size={14} />,
+  'next': <Layers size={14} />,
+  'node': <Server size={14} />,
+  'express': <Server size={14} />,
+  'spring': <Server size={14} />,
+  'backend': <Server size={14} />,
+  'golang': <Server size={14} />,
+  'java': <Server size={14} />,
+  'mongo': <Database size={14} />,
+  'mysql': <Database size={14} />,
+  'firebase': <Database size={14} />,
+  'database': <Database size={14} />,
+  'postgresql': <Database size={14} />,
+  'tailwind': <Layout size={14} />,
+  'css': <Layout size={14} />,
+  'html': <Layout size={14} />,
+  'frontend': <Layout size={14} />,
+  'api': <Globe size={14} />,
+  'axios': <Globe size={14} />,
+  'http': <Globe size={14} />,
+  'three': <Box size={14} />,
+  'blender': <Box size={14} />,
+  '3d': <Box size={14} />,
+  'map': <MapPin size={14} />,
+  'leaflet': <MapPin size={14} />,
+  'animation': <Zap size={14} />,
+  'zap': <Zap size={14} />,
+  'mobile': <Smartphone size={14} />,
+  'web': <Monitor size={14} />,
+  'js': <Code2 size={14} />,
+  'python': <Code2 size={14} />,
+  'code': <Code2 size={14} />,
+};
+
+const getTechIcon = (name: string): React.ReactNode => {
   const n = name.toLowerCase();
-  if (n.includes('react') || n.includes('next')) return <Layers size={14} />;
-  if (n.includes('node') || n.includes('express') || n.includes('spring') || n.includes('backend') || n.includes('golang') || n.includes('java')) return <Server size={14} />;
-  if (n.includes('mongo') || n.includes('mysql') || n.includes('firebase') || n.includes('database') || n.includes('postgresql')) return <Database size={14} />;
-  if (n.includes('tailwind') || n.includes('css') || n.includes('html') || n.includes('frontend')) return <Layout size={14} />;
-  if (n.includes('api') || n.includes('axios') || n.includes('http')) return <Globe size={14} />;
-  if (n.includes('three') || n.includes('blender') || n.includes('3d')) return <Box size={14} />;
-  if (n.includes('map') || n.includes('leaflet')) return <MapPin size={14} />;
-  if (n.includes('animation') || n.includes('zap')) return <Zap size={14} />;
-  if (n.includes('mobile')) return <Smartphone size={14} />;
-  if (n.includes('web')) return <Monitor size={14} />;
-  if (n.includes('js') || n.includes('python') || n.includes('code')) return <Code2 size={14} />;
+  for (const [key, icon] of Object.entries(TECH_ICON_MAP)) {
+    if (n.includes(key)) return icon;
+  }
   return <Cpu size={14} />;
 };
 
-const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: (p: Project) => void }> = ({ project, onClose, onSelect }) => {
+const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: (p: Project) => void }> = memo(({ project, onClose, onSelect }) => {
   const relatedProjects = useMemo(() => {
     return mockProjects
       .filter(p => p.project_id !== project.project_id)
@@ -91,6 +118,13 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
   const [copied, setCopied] = useState(false);
 
   const projectUrl = typeof window !== 'undefined' ? `${window.location.origin}?project=${project.project_id}` : '';
+
+  const shareLinks = useMemo(() => ({
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(projectUrl)}&quote=${encodeURIComponent(`${project.project_name} - ${project.project_des}`)}`,
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(projectUrl)}&text=${encodeURIComponent(`Xem dự án "${project.project_name}": ${project.project_des}`)}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(projectUrl)}`,
+    instagram: `https://instagram.com/`,
+  }), [projectUrl, project.project_name, project.project_des]);
 
   // Update meta tags for social sharing
   const updateMetaTags = () => {
@@ -144,20 +178,13 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
     }, 100);
   };
 
-  const shareLinks = {
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(projectUrl)}&quote=${encodeURIComponent(`${project.project_name} - ${project.project_des}`)}`,
-    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(projectUrl)}&text=${encodeURIComponent(`Xem dự án "${project.project_name}": ${project.project_des}`)}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(projectUrl)}`,
-    instagram: `https://instagram.com/`,
-  };
-
-  const timelineSteps = [
+  const timelineSteps = useMemo(() => [
     { label: 'Khởi tạo', icon: <Search size={14} />, status: 'done' },
     { label: 'Thiết kế', icon: <Layout size={14} />, status: 'done' },
     { label: 'Phát triển', icon: <Settings size={14} />, status: 'done' },
     { label: 'Hoàn thiện', icon: <Flag size={14} />, status: project.status === 'Completed' ? 'done' : 'active' },
     { label: 'Triển khai', icon: <Rocket size={14} />, status: project.status === 'Completed' ? 'done' : 'next' }
-  ];
+  ], [project.status]);
 
   return (
     <motion.div 
@@ -275,62 +302,91 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
 
             {/* Share Section */}
             <div className="mb-12 pb-12 border-b border-gray-100 dark:border-white/5">
-              <div className="flex items-center gap-2 mb-6">
+              <div className="flex items-center gap-2 mb-8">
                 <Share2 size={16} className="text-primary" />
                 <h3 className="text-[10px] font-black text-gray-900 dark:text-white uppercase tracking-[0.2em]">Chia sẻ dự án</h3>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                {/* Facebook Share */}
-                <button
-                  onClick={() => handleShare('facebook')}
-                  className="p-4 flex items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 transition-all border border-blue-100 dark:border-blue-500/20 group"
-                  aria-label="Chia sẻ lên Facebook"
-                  title="Chia sẻ lên Facebook"
-                >
-                  <Facebook size={20} className="group-hover:scale-110 transition-transform" />
-                </button>
+              
+              {/* Share Buttons */}
+              <div className="mb-6 last:mb-0">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+                  {/* Facebook Share */}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleShare('facebook')}
+                    className="p-4 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-500/15 dark:to-blue-500/5 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-500/25 dark:hover:to-blue-500/10 text-blue-600 dark:text-blue-400 transition-all border border-blue-200 dark:border-blue-500/30 shadow-sm hover:shadow-md group"
+                    aria-label="Chia sẻ lên Facebook"
+                    title="Chia sẻ lên Facebook"
+                  >
+                    <Facebook size={20} className="group-hover:scale-110 transition-transform" />
+                  </motion.button>
 
-                {/* Twitter Share */}
-                <button
-                  onClick={() => handleShare('twitter')}
-                  className="p-4 flex items-center justify-center rounded-2xl bg-sky-50 dark:bg-sky-500/10 hover:bg-sky-100 dark:hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 transition-all border border-sky-100 dark:border-sky-500/20 group"
-                  aria-label="Chia sẻ lên Twitter"
-                  title="Chia sẻ lên Twitter"
-                >
-                  <Twitter size={20} className="group-hover:scale-110 transition-transform" />
-                </button>
+                  {/* Twitter Share */}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleShare('twitter')}
+                    className="p-4 flex items-center justify-center rounded-xl bg-gradient-to-br from-sky-50 to-sky-100/50 dark:from-sky-500/15 dark:to-sky-500/5 hover:from-sky-100 hover:to-sky-200 dark:hover:from-sky-500/25 dark:hover:to-sky-500/10 text-sky-600 dark:text-sky-400 transition-all border border-sky-200 dark:border-sky-500/30 shadow-sm hover:shadow-md group"
+                    aria-label="Chia sẻ lên Twitter"
+                    title="Chia sẻ lên Twitter"
+                  >
+                    <Twitter size={20} className="group-hover:scale-110 transition-transform" />
+                  </motion.button>
 
-                {/* LinkedIn Share */}
-                <button
-                  onClick={() => handleShare('linkedin')}
-                  className="p-4 flex items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 transition-all border border-blue-100 dark:border-blue-500/20 group"
-                  aria-label="Chia sẻ lên LinkedIn"
-                  title="Chia sẻ lên LinkedIn"
-                >
-                  <Linkedin size={20} className="group-hover:scale-110 transition-transform" />
-                </button>
+                  {/* LinkedIn Share */}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleShare('linkedin')}
+                    className="p-4 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-500/15 dark:to-blue-500/5 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-500/25 dark:hover:to-blue-500/10 text-blue-600 dark:text-blue-400 transition-all border border-blue-200 dark:border-blue-500/30 shadow-sm hover:shadow-md group"
+                    aria-label="Chia sẻ lên LinkedIn"
+                    title="Chia sẻ lên LinkedIn"
+                  >
+                    <Linkedin size={20} className="group-hover:scale-110 transition-transform" />
+                  </motion.button>
 
-                {/* Instagram Share */}
-                <a
-                  href={shareLinks.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-4 flex items-center justify-center rounded-2xl bg-pink-50 dark:bg-pink-500/10 hover:bg-pink-100 dark:hover:bg-pink-500/20 text-pink-600 dark:text-pink-400 transition-all border border-pink-100 dark:border-pink-500/20 group"
-                  aria-label="Chia sẻ lên Instagram"
-                  title="Chia sẻ lên Instagram"
-                >
-                  <Instagram size={20} className="group-hover:scale-110 transition-transform" />
-                </a>
+                  {/* Instagram Share */}
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    href={shareLinks.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-4 flex items-center justify-center rounded-xl bg-gradient-to-br from-pink-50 to-pink-100/50 dark:from-pink-500/15 dark:to-pink-500/5 hover:from-pink-100 hover:to-pink-200 dark:hover:from-pink-500/25 dark:hover:to-pink-500/10 text-pink-600 dark:text-pink-400 transition-all border border-pink-200 dark:border-pink-500/30 shadow-sm hover:shadow-md group"
+                    aria-label="Chia sẻ lên Instagram"
+                    title="Chia sẻ lên Instagram"
+                  >
+                    <Instagram size={20} className="group-hover:scale-110 transition-transform" />
+                  </motion.a>
 
-                {/* Copy Link */}
-                <button
-                  onClick={handleCopyLink}
-                  className="p-4 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-600 dark:text-gray-400 transition-all border border-gray-200 dark:border-white/20 group"
-                  aria-label="Sao chép liên kết"
-                  title="Sao chép liên kết"
-                >
-                  {copied ? <Check size={20} className="text-green-600 dark:text-green-400" /> : <Copy size={20} className="group-hover:scale-110 transition-transform" />}
-                </button>
+                  {/* Copy Link */}
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleCopyLink}
+                    className="p-4 flex items-center justify-center rounded-xl bg-gradient-to-br from-gray-100 to-gray-200/50 dark:from-white/15 dark:to-white/5 hover:from-gray-200 hover:to-gray-300 dark:hover:from-white/25 dark:hover:to-white/10 text-gray-600 dark:text-gray-400 transition-all border border-gray-300 dark:border-white/20 shadow-sm hover:shadow-md group"
+                    aria-label="Sao chép liên kết"
+                    title="Sao chép liên kết"
+                  >
+                    {copied ? <Check size={20} className="text-green-600 dark:text-green-400" /> : <Copy size={20} className="group-hover:scale-110 transition-transform" />}
+                  </motion.button>
+                </div>
+
+                {/* Share Link Copy Feedback */}
+                <AnimatePresence>
+                  {copied && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="text-sm text-green-600 dark:text-green-400 font-semibold flex items-center gap-2"
+                    >
+                      <CheckCircle2 size={14} />
+                      Đã sao chép liên kết!
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>
@@ -367,17 +423,18 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
       </motion.div>
     </motion.div>
   );
-};
+});
 
 const ProjectCard = memo(({ project, index, onSelect, layout }: any) => {
   const isFeatured = index % 5 === 0 && layout === 'grid';
 
   return (
     <motion.article
-      layout
+      layout="position"
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       className={`group relative flex flex-col transition-all duration-500 rounded-[2.5rem] overflow-hidden gpu-accelerated cursor-pointer
         ${layout === 'list' ? 'md:flex-row w-full h-auto md:items-stretch mb-8' : 'h-full'}
         ${isFeatured ? 'md:col-span-2' : 'col-span-1'}
@@ -386,6 +443,7 @@ const ProjectCard = memo(({ project, index, onSelect, layout }: any) => {
         ${layout === 'comparison' ? 'group flex flex-col md:flex-row items-center gap-6 p-6 bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 rounded-3xl' : ''}
       `}
       onClick={() => onSelect(project)}
+      style={{ willChange: 'transform, opacity' }}
     >
       <div className="absolute inset-0 bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 group-hover:shadow-2xl group-hover:shadow-primary/5 transition-all duration-500" />
       
@@ -414,10 +472,18 @@ const ProjectCard = memo(({ project, index, onSelect, layout }: any) => {
   );
 });
 
-const TimelineItem = ({ project, index, onSelect }: any) => {
+const TimelineItem = memo(({ project, index, onSelect }: any) => {
   const isLeft = index % 2 === 0;
   return (
-    <motion.article initial={{ opacity: 0, x: isLeft ? -30 : 30 }} whileInView={{ opacity: 1, x: 0 }} className={`flex w-full mb-12 items-center justify-between ${isLeft ? '' : 'flex-row-reverse'}`}>
+    <motion.article 
+      layout="position"
+      initial={{ opacity: 0, x: isLeft ? -30 : 30 }} 
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: isLeft ? -30 : 30 }}
+      transition={{ duration: 0.3 }}
+      className={`flex w-full mb-12 items-center justify-between ${isLeft ? '' : 'flex-row-reverse'}`}
+      style={{ willChange: 'transform, opacity' }}
+    >
       <div className="hidden md:block w-5/12" />
       <div className="z-20 flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white shrink-0 border-4 border-white dark:border-gray-950 shadow-lg" aria-hidden="true"><Calendar size={14} /></div>
       <div onClick={() => onSelect(project)} className={`w-full md:w-5/12 bg-white dark:bg-gray-900 p-6 rounded-[2rem] border border-gray-100 dark:border-white/5 cursor-pointer hover:border-primary/50 transition-all group relative`}>
@@ -427,14 +493,24 @@ const TimelineItem = ({ project, index, onSelect }: any) => {
       </div>
     </motion.article>
   );
-};
+});
 
-const Projects: React.FC<{ layout?: string }> = ({ layout = 'grid' }) => {
+const Projects: React.FC<{ layout?: string; onProjectSelect?: (projectId: number) => void }> = memo(({ layout = 'grid', onProjectSelect }) => {
   const [filter, setFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showAll, setShowAll] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const categories = ['All', 'Frontend', 'Backend', 'Fullstack', 'Mobile App'];
+
+  const handleProjectSelect = useCallback((project: Project) => {
+    if (onProjectSelect) {
+      window.history.pushState({}, '', `?project=${project.project_id}`);
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      onProjectSelect(project.project_id);
+    } else {
+      setSelectedProject(project);
+    }
+  }, [onProjectSelect]);
 
   const filteredProjects = useMemo(() => {
     let list = [...mockProjects].sort((a, b) => b.project_id - a.project_id);
@@ -471,7 +547,7 @@ const Projects: React.FC<{ layout?: string }> = ({ layout = 'grid' }) => {
 
         <nav className="flex items-center gap-2 mb-16 overflow-x-auto pb-4 no-scrollbar" aria-label="Lọc dự án">
           {categories.map(cat => (
-            <button key={cat} onClick={() => { setFilter(cat); setShowAll(false); }} className={`relative px-8 py-3.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${filter === cat ? 'text-white' : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'}`}>
+            <button key={cat} onClick={() => { setFilter(cat); setShowAll(false); }} className={`relative px-8 py-3.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all will-change-colors ${filter === cat ? 'text-white' : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'}`}>
               <span className="relative z-10">{cat}</span>
               {filter === cat && <motion.div layoutId="activeCat" className="absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/25" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
             </button>
@@ -490,12 +566,12 @@ const Projects: React.FC<{ layout?: string }> = ({ layout = 'grid' }) => {
           `}
         >
           {layout === 'timeline' && <div className="absolute left-1/2 -translate-x-1/2 top-0 h-full w-px bg-gray-200 dark:bg-white/10 hidden md:block" aria-hidden="true" />}
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="sync">
             {displayedProjects.map((p, idx) => (
               layout === 'timeline' ? (
-                <TimelineItem key={p.project_id} project={p} index={idx} onSelect={setSelectedProject} />
+                <TimelineItem key={p.project_id} project={p} index={idx} onSelect={handleProjectSelect} />
               ) : (
-                <ProjectCard key={p.project_id} project={p} index={idx} onSelect={setSelectedProject} layout={layout} />
+                <ProjectCard key={p.project_id} project={p} index={idx} onSelect={handleProjectSelect} layout={layout} />
               )
             ))}
           </AnimatePresence>
@@ -512,10 +588,10 @@ const Projects: React.FC<{ layout?: string }> = ({ layout = 'grid' }) => {
       </div>
 
       <AnimatePresence>
-        {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} onSelect={setSelectedProject} />}
+        {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} onSelect={handleProjectSelect} />}
       </AnimatePresence>
     </section>
   );
-};
+});
 
 export default memo(Projects);
