@@ -1,187 +1,268 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+import { motion, useTransform, useMotionValue, useSpring } from 'framer-motion';
 
 interface IntroScreenProps {
   onIntroComplete: () => void;
-  primaryColor?: string;
 }
 
-const IntroScreen: React.FC<IntroScreenProps> = ({ onIntroComplete, primaryColor = '#10b981' }) => {
-  const [isExpanding, setIsExpanding] = useState(false);
-  const [scale, setScale] = useState(0.08);
-  const [rotate, setRotate] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+// --- CONFIG ANIMATION ---
+const autoFocusBreath = {
+  scale: [1, 1.002, 1],
+  rotate: [0, 0.5, 0],
+  transition: {
+    duration: 3,
+    repeat: Infinity,
+    ease: "easeInOut",
+    repeatType: "reverse" as const,
+    repeatDelay: 0.5
+  }
+}
+
+// --- SUB-COMPONENT: LỚP KÍNH PHẢN CHIẾU ---
+const GlassElement = ({ mouseX, mouseY }: { mouseX: any, mouseY: any }) => {
+  // Phản chiếu di chuyển ngược hướng chuột để tạo độ lồi 3D
+  const glareX = useTransform(mouseX, [-0.5, 0.5], [25, -25]);
+  const glareY = useTransform(mouseY, [-0.5, 0.5], [25, -25]);
+
+  return (
+    <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none z-50">
+      {/* 1. Lớp bóng kính tổng thể (Specular Reflection) */}
+      <motion.div
+        className="absolute inset-0 opacity-80"
+        style={{
+          background: 'radial-gradient(circle at 35% 35%, rgba(255,255,255,0.15) 0%, transparent 50%)',
+          x: glareX,
+          y: glareY
+        }}
+      />
+
+      {/* 2. Vệt sáng sắc cạnh (Hard Light) */}
+      <motion.div
+        className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-white/5 blur-md rounded-full"
+        style={{
+          x: useTransform(mouseX, [-0.5, 0.5], [-30, 30]), // Parallax mạnh hơn
+          y: useTransform(mouseY, [-0.5, 0.5], [-30, 30]),
+          opacity: 0.3
+        }}
+      />
+
+      {/* 3. Caustics (Vân sáng khúc xạ) */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-400/5 to-purple-500/5 mix-blend-color-dodge" />
+    </div>
+  )
+}
+
+// --- MAIN COMPONENT ---
+const UltimateLensIntro: React.FC<IntroScreenProps> = ({ onIntroComplete }) => {
+  const [isFinished, setIsFinished] = useState(false);
+  const [hasStartedAudio, setHasStartedAudio] = useState(false);
+
+  // Audio Refs
+  const motorAudioRef = useRef<HTMLAudioElement | null>(null);
+  const shutterAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Motion Values
+  const scrollProgress = useMotionValue(0);
+  const smoothProgress = useSpring(scrollProgress, { damping: 20, stiffness: 80, mass: 1 });
+
+  // Mouse Motion Values (Cho hiệu ứng kính lồi)
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothMouseX = useSpring(mouseX, { damping: 30, stiffness: 200 });
+  const smoothMouseY = useSpring(mouseY, { damping: 30, stiffness: 200 });
+
+  // --- TRANSFORMS ---
+  const bladeRotate = useTransform(smoothProgress, [0, 1], [0, -65]);
+  const bladeMovement = useTransform(smoothProgress, [0, 1], ['-15%', '-55%']);
+  const lensScale = useTransform(smoothProgress, [0.6, 1], [1, 30]);
+  const ringRotation = useTransform(smoothProgress, [0, 1], [0, 90]);
+  const lensOpacity = useTransform(smoothProgress, [0.85, 1], [1, 0]);
+
+  // Flash Effect logic
+  const flashOpacity = useTransform(smoothProgress, [0.95, 0.98, 1], [0, 1, 0]);
 
   useEffect(() => {
-    let scrollAmount = 0;
-    const minScrollToTrigger = 300;
-
-    const handleScroll = () => {
-      if (isExpanding) return;
-
-      scrollAmount += window.scrollY || window.pageYOffset;
-      
-      if (scrollAmount > minScrollToTrigger) {
-        setIsExpanding(true);
-        window.scrollTo(0, 0);
-      }
-    };
+    let currentScroll = 0;
+    const maxScroll = 1500;
 
     const handleWheel = (e: WheelEvent) => {
-      if (isExpanding) return;
+      if (isFinished) return;
+      if (currentScroll < maxScroll - 50) e.preventDefault();
 
-      scrollAmount += e.deltaY > 0 ? 50 : -50;
-      scrollAmount = Math.max(0, scrollAmount);
-
-      if (scrollAmount > minScrollToTrigger) {
-        setIsExpanding(true);
-        window.scrollTo(0, 0);
+      // Xử lý Âm thanh Mô tơ
+      if (!hasStartedAudio && motorAudioRef.current) {
+        motorAudioRef.current.play().catch(() => { }); // Catch lỗi nếu trình duyệt chặn
+        setHasStartedAudio(true);
       }
 
-      // Calculate scale based on scroll
-      const newScale = Math.min(1, 0.08 + (scrollAmount / minScrollToTrigger) * 0.92);
-      const rotation = (scrollAmount / minScrollToTrigger) * 180;
-      setScale(newScale);
-      setRotate(rotation);
+      currentScroll += e.deltaY;
+      currentScroll = Math.max(0, Math.min(currentScroll, maxScroll));
+
+      const progress = currentScroll / maxScroll;
+      scrollProgress.set(progress);
+
+      // Khi hoàn thành
+      if (progress >= 0.99 && !isFinished) {
+        setIsFinished(true);
+
+        // Dừng tiếng mô tơ, chơi tiếng màn trập
+        if (motorAudioRef.current) {
+          motorAudioRef.current.pause();
+          motorAudioRef.current.currentTime = 0;
+        }
+        if (shutterAudioRef.current) {
+          shutterAudioRef.current.play().catch(() => { });
+        }
+
+        setTimeout(onIntroComplete, 800); // Đợi flash xong mới unmount
+      }
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: true });
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    const handleMouseMove = (e: MouseEvent) => {
+      // Chuẩn hóa toạ độ chuột (-0.5 đến 0.5)
+      mouseX.set(e.clientX / window.innerWidth - 0.5);
+      mouseY.set(e.clientY / window.innerHeight - 0.5);
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+      // Cleanup audio
+      if (motorAudioRef.current) motorAudioRef.current.pause();
     };
-  }, [isExpanding]);
+  }, [isFinished, onIntroComplete, smoothProgress, hasStartedAudio, mouseX, mouseY, scrollProgress]);
+
+  if (isFinished && smoothProgress.get() > 0.995) return null;
+
+  const bladeCount = 9;
 
   return (
-    <div
-      ref={containerRef}
-      className="fixed inset-0 bg-gray-50 dark:bg-gray-950 z-50 flex items-center justify-center overflow-hidden perspective"
+    <motion.div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#080808] overflow-hidden"
+      style={{ opacity: lensOpacity }}
     >
-      {/* Animated expanding camera aperture */}
+      {/* Background Noise Texture */}
+      <div className="absolute inset-0 opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+
+      {/* --- CỤM ỐNG KÍNH (MAIN ASSEMBLY) --- */}
       <motion.div
-        initial={{ scale: 0.08, opacity: 1 }}
-        animate={
-          isExpanding
-            ? { scale: 1, opacity: 1 }
-            : { scale: scale, opacity: 1 }
-        }
-        transition={
-          isExpanding
-            ? { duration: 3, ease: [0.34, 1.56, 0.64, 1] }
-            : { duration: 0.2, ease: 'easeOut'}
-        }
-        onAnimationComplete={() => {
-          if (isExpanding) {
-            setTimeout(() => {
-              onIntroComplete();
-            }, 1000);
-          }
-        }}
-        className="absolute inset-0 flex items-center justify-center"
-        style={{
-          rotateZ: isExpanding ? 0 : rotate,
-        }}
+        className="relative w-[70vmin] h-[70vmin] rounded-full flex items-center justify-center"
+        style={{ scale: lensScale }}
       >
-        {/* Camera Aperture Blades */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-full h-full"
-              style={{
-                rotateZ: (i * 45) + (isExpanding ? 0 : rotate * 2),
-                clipPath: `polygon(50% 50%, 50% 0%, 100% 0%)`
-              }}
-            >
-              <div
-                className="w-full h-full"
-                style={{
-                  background: `linear-gradient(135deg, ${primaryColor}${isExpanding ? '00' : '20'}, ${primaryColor}${isExpanding ? '00' : '08'})`,
-                  transition: 'background 0.2s ease'
-                }}
-              />
-            </motion.div>
-          ))}
-        </div>
+        {/* 1. VỎ NGOÀI CÙNG */}
+        <div className="absolute inset-[-10%] rounded-full bg-[#151515] shadow-2xl border border-[#222]"
+          style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.8)' }} />
 
-        {/* Inner Rotating Rings */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          {[1, 2, 3].map((ring) => (
-            <motion.div
-              key={`ring-${ring}`}
-              className="absolute rounded-full border-2"
-              style={{
-                width: `${70 + ring * 25}%`,
-                height: `${70 + ring * 25}%`,
-                borderColor: `${primaryColor}${isExpanding ? '20' : '40'}`,
-                rotateZ: isExpanding ? ring * 120 : rotate * (ring + 1),
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Center gradient background */}
-        <div
-          className="absolute inset-0 flex flex-col items-center justify-center rounded-full"
+        {/* 2. VÒNG CAO SU LẤY NÉT */}
+        <div className="absolute inset-[-2%] rounded-full border-[15px] border-[#1a1a1a]"
           style={{
-            background: `radial-gradient(circle, ${primaryColor}15, ${primaryColor}05)`,
-            filter: isExpanding ? 'blur(0px)' : 'blur(2px)',
+            backgroundImage: 'repeating-conic-gradient(#1a1a1a 0deg, #1a1a1a 1deg, #0d0d0d 1.5deg, #0d0d0d 2deg)',
+            boxShadow: 'inset 0 0 10px #000'
           }}
+        />
+
+        {/* 3. VÒNG CHỈ ĐỎ */}
+        <div className="absolute inset-[2%] rounded-full border-[2px] border-red-700/80 shadow-[0_0_10px_rgba(200,0,0,0.3)]" />
+
+        {/* 4. VÒNG THÔNG SỐ */}
+        <motion.div
+          className="absolute inset-[5%] rounded-full border-[30px] border-[#111] bg-[#111] flex items-center justify-center"
+          style={{ rotate: ringRotation }}
         >
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isExpanding ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-center z-10 relative"
-          >
-            <motion.div
-              animate={isExpanding ? {} : { y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="inline-flex items-center justify-center"
-            >
-              <Sparkles size={48} className="text-primary mb-6" />
-            </motion.div>
+          <div className="absolute top-2 text-[8px] font-bold text-gray-400 tracking-[2px]">
+            1:1.2 USM 85mm φ72mm
+          </div>
+          <div className="absolute bottom-2 text-[8px] font-bold text-gray-500 tracking-[2px]">
+            MADE IN NG.HIEP
+          </div>
+          <div className="absolute left-4 w-1 h-1 bg-gray-600 rounded-full" />
+          <div className="absolute right-4 w-1 h-1 bg-gray-600 rounded-full" />
+        </motion.div>
 
-            <h1 className="text-6xl md:text-7xl font-black text-gray-900 dark:text-white mb-6 tracking-tighter">
-              Portfolio
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 mb-4 font-semibold max-w-2xl">
-              Khám phá những dự án tuyệt vời
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-500 opacity-70">
-              Cuộn để mở rộng ↓
-            </p>
-          </motion.div>
+        {/* 5. PHẦN KÍNH TRONG & LÁ KHẨU */}
+        <motion.div
+          className="absolute inset-[18%] rounded-full bg-black overflow-hidden shadow-[inset_0_0_20px_#000]"
+          animate={isFinished ? {} : autoFocusBreath}
+        >
 
-          {/* Decorative Elements */}
+          {/* --- CƠ CHẾ LÁ KHẨU --- */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            {Array.from({ length: bladeCount }).map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-full h-full"
+                style={{
+                  rotate: (360 / bladeCount) * i,
+                }}
+              >
+                <motion.div
+                  className="absolute w-[70%] h-[70%] top-1/2 left-1/2 origin-top-left bg-[#1a1a1a]"
+                  style={{
+                    x: bladeMovement,
+                    y: bladeMovement,
+                    rotate: bladeRotate,
+                    borderRadius: '0 80% 0 30%',
+                    background: 'linear-gradient(135deg, #222 0%, #1a1a1a 50%, #111 100%)',
+                    borderTop: '1px solid rgba(255,255,255,0.1)',
+                    borderLeft: '1px solid rgba(0,0,0,0.8)',
+                    boxShadow: '5px 5px 15px rgba(0,0,0,0.8)'
+                  }}
+                />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* CÁC LỚP QUANG HỌC CỐ ĐỊNH */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
           <motion.div
-            animate={isExpanding ? {} : { rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-0 pointer-events-none opacity-10"
-          >
-            <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary rounded-full filter blur-3xl" />
-            <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-primary rounded-full filter blur-3xl" />
-          </motion.div>
-        </div>
+            className="absolute inset-0 rounded-full mix-blend-screen opacity-30 pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle at 30% 30%, rgba(100, 100, 255, 0.4) 0%, transparent 60%)',
+              rotate: useTransform(smoothProgress, [0, 1], [0, -45])
+            }}
+          />
+          <motion.div
+            className="absolute inset-0 rounded-full mix-blend-overlay opacity-20 pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle at 70% 70%, rgba(255, 200, 100, 0.4) 0%, transparent 50%)',
+            }}
+          />
+
+          {/* --- TÍCH HỢP LỚP KÍNH PHẢN CHIẾU THEO CHUỘT --- */}
+          <GlassElement mouseX={smoothMouseX} mouseY={smoothMouseY} />
+
+        </motion.div>
+
+        {/* Viền kim loại trong cùng */}
+        <div className="absolute inset-[18%] rounded-full border border-gray-700/50 pointer-events-none" />
+
       </motion.div>
 
-      {/* Hint text */}
+      {/* Flash Effect */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={isExpanding ? { opacity: 0 } : { opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
-        className="absolute bottom-12 left-1/2 transform -translate-x-1/2 text-center pointer-events-none"
+        className="absolute top-20 left-40 flex items-center justify-center"
+        style={{
+          opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]),
+          pointerEvents: useTransform(smoothProgress, [0, 0.1], ['none', 'all']),
+        }}
       >
-        <p className="text-sm font-black text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-          ✨ Scroll hoặc cuộn để bắt đầu ✨
-        </p>
+        <div className="w-20 h-10 bg-white blur-sm rounded-lg shadow-[0_0_30px_15px_rgba(255,255,255,0.8)] animate-pulse" />
       </motion.div>
-    </div>
+
+
+      {/* UI Hướng dẫn */}
+      <motion.div
+        className="absolute bottom-10 flex flex-col items-center gap-2"
+        style={{ opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]) }}
+      >
+        <div className="w-[1px] h-8 bg-gradient-to-b from-transparent via-gray-500 to-transparent" />
+        <span className="text-[20px] uppercase tracking-[0.3em] text-gray-500 font-mono">Scroll to Open</span>
+      </motion.div>
+    </motion.div>
   );
 };
 
-export default IntroScreen;
+export default UltimateLensIntro;

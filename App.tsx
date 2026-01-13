@@ -156,7 +156,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 theme-transition relative overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 theme-transition relative">
       {showIntro && <IntroScreen onIntroComplete={handleIntroComplete} primaryColor={THEME_COLORS[settings.primaryColor]?.hex} />}
 
       {selectedProjectId ? (
