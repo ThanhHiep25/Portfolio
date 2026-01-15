@@ -19,7 +19,10 @@ import IntroScreen from './components/IntroScreen';
 const App: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return window.innerWidth > 1024; // Hide intro on tablet/mobile
+  });
   const [settings, setSettings] = useState<AppSettings>(() => {
     const saved = localStorage.getItem('portfolio-settings');
     if (saved) {
@@ -48,6 +51,19 @@ const App: React.FC = () => {
     if (projectId) {
       setSelectedProjectId(parseInt(projectId, 10));
     }
+  }, []);
+
+  // Hide intro on tablet/mobile and keep it hidden if user resizes smaller
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1024) {
+        setShowIntro(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Global Smooth Scroll Interceptor
@@ -156,7 +172,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 theme-transition relative">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 theme-transition relative overflow-hidden">
       {showIntro && <IntroScreen onIntroComplete={handleIntroComplete} primaryColor={THEME_COLORS[settings.primaryColor]?.hex} />}
 
       {selectedProjectId ? (

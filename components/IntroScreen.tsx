@@ -3,6 +3,7 @@ import { motion, useTransform, useMotionValue, useSpring } from 'framer-motion';
 
 interface IntroScreenProps {
   onIntroComplete: () => void;
+  primaryColor?: string; // Optional for compatibility with parent prop
 }
 
 // --- CONFIG ANIMATION ---
@@ -52,14 +53,23 @@ const GlassElement = ({ mouseX, mouseY }: { mouseX: any, mouseY: any }) => {
   )
 }
 
+const MAX_SCROLL = 1500;
+const MOBILE_BREAKPOINT = 768;
+
 // --- MAIN COMPONENT ---
 const UltimateLensIntro: React.FC<IntroScreenProps> = ({ onIntroComplete }) => {
   const [isFinished, setIsFinished] = useState(false);
   const [hasStartedAudio, setHasStartedAudio] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Audio Refs
   const motorAudioRef = useRef<HTMLAudioElement | null>(null);
   const shutterAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Scroll state (shared for wheel + touch)
+  const scrollRef = useRef(0);
+  const pointerActiveRef = useRef(false);
+  const lastPointerY = useRef<number | null>(null);
 
   // Motion Values
   const scrollProgress = useMotionValue(0);
@@ -74,7 +84,7 @@ const UltimateLensIntro: React.FC<IntroScreenProps> = ({ onIntroComplete }) => {
   // --- TRANSFORMS ---
   const bladeRotate = useTransform(smoothProgress, [0, 1], [0, -65]);
   const bladeMovement = useTransform(smoothProgress, [0, 1], ['-15%', '-55%']);
-  const lensScale = useTransform(smoothProgress, [0.6, 1], [1, 30]);
+  const lensScale = useTransform(smoothProgress, [0.6, 1], [1, isMobile ? 8 : 30]);
   const ringRotation = useTransform(smoothProgress, [0, 1], [0, 90]);
   const lensOpacity = useTransform(smoothProgress, [0.85, 1], [1, 0]);
 
@@ -82,12 +92,23 @@ const UltimateLensIntro: React.FC<IntroScreenProps> = ({ onIntroComplete }) => {
   const flashOpacity = useTransform(smoothProgress, [0.95, 0.98, 1], [0, 1, 0]);
 
   useEffect(() => {
-    let currentScroll = 0;
-    const maxScroll = 1500;
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    };
 
-    const handleWheel = (e: WheelEvent) => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const maxScroll = isMobile ? 700 : MAX_SCROLL;
+
+    const updateProgress = (delta: number) => {
       if (isFinished) return;
-      if (currentScroll < maxScroll - 50) e.preventDefault();
 
       // Xử lý Âm thanh Mô tơ
       if (!hasStartedAudio && motorAudioRef.current) {
@@ -95,10 +116,10 @@ const UltimateLensIntro: React.FC<IntroScreenProps> = ({ onIntroComplete }) => {
         setHasStartedAudio(true);
       }
 
-      currentScroll += e.deltaY;
-      currentScroll = Math.max(0, Math.min(currentScroll, maxScroll));
+      const next = Math.max(0, Math.min(scrollRef.current + delta, maxScroll));
+      scrollRef.current = next;
 
-      const progress = currentScroll / maxScroll;
+      const progress = next / maxScroll;
       scrollProgress.set(progress);
 
       // Khi hoàn thành
@@ -118,22 +139,54 @@ const UltimateLensIntro: React.FC<IntroScreenProps> = ({ onIntroComplete }) => {
       }
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleWheel = (e: WheelEvent) => {
+      if (isFinished) return;
+      if (scrollRef.current < MAX_SCROLL - 50) e.preventDefault();
+      updateProgress(e.deltaY);
+    };
+
+    const handlePointerDown = (e: PointerEvent) => {
+      if (isFinished) return;
+      pointerActiveRef.current = true;
+      lastPointerY.current = e.clientY;
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
       // Chuẩn hóa toạ độ chuột (-0.5 đến 0.5)
-      mouseX.set(e.clientX / window.innerWidth - 0.5);
-      mouseY.set(e.clientY / window.innerHeight - 0.5);
+      if (!isMobile) {
+        mouseX.set(e.clientX / window.innerWidth - 0.5);
+        mouseY.set(e.clientY / window.innerHeight - 0.5);
+      }
+
+      if (!pointerActiveRef.current || lastPointerY.current === null || isFinished) return;
+      e.preventDefault();
+
+      const deltaY = e.clientY - lastPointerY.current;
+      lastPointerY.current = e.clientY;
+      updateProgress(deltaY);
+    };
+
+    const handlePointerUp = () => {
+      pointerActiveRef.current = false;
+      lastPointerY.current = null;
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('pointerdown', handlePointerDown, { passive: false });
+    window.addEventListener('pointermove', handlePointerMove, { passive: false });
+    window.addEventListener('pointerup', handlePointerUp, { passive: true });
+    window.addEventListener('pointercancel', handlePointerUp, { passive: true });
 
     return () => {
       window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerUp);
       // Cleanup audio
       if (motorAudioRef.current) motorAudioRef.current.pause();
     };
-  }, [isFinished, onIntroComplete, smoothProgress, hasStartedAudio, mouseX, mouseY, scrollProgress]);
+  }, [isFinished, onIntroComplete, hasStartedAudio, mouseX, mouseY, scrollProgress, isMobile]);
 
   if (isFinished && smoothProgress.get() > 0.995) return null;
 
@@ -141,20 +194,20 @@ const UltimateLensIntro: React.FC<IntroScreenProps> = ({ onIntroComplete }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#080808] overflow-hidden"
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#151515]/80 backdrop-blur-md overflow-hidden touch-none select-none`}
       style={{ opacity: lensOpacity }}
     >
       {/* Background Noise Texture */}
-      <div className="absolute inset-0 opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" style={{ opacity: isMobile ? 0.04 : 0.1 }} />
 
       {/* --- CỤM ỐNG KÍNH (MAIN ASSEMBLY) --- */}
       <motion.div
-        className="relative w-[70vmin] h-[70vmin] rounded-full flex items-center justify-center"
+        className={`relative rounded-full flex items-center justify-center ${isMobile ? 'w-[85vmin] h-[85vmin]' : 'w-[70vmin] h-[70vmin]'}`}
         style={{ scale: lensScale }}
       >
         {/* 1. VỎ NGOÀI CÙNG */}
         <div className="absolute inset-[-10%] rounded-full bg-[#151515] shadow-2xl border border-[#222]"
-          style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.8)' }} />
+          style={{ boxShadow: isMobile ? '0 10px 25px rgba(0,0,0,0.6)' : '0 20px 50px rgba(0,0,0,0.8)' }} />
 
         {/* 2. VÒNG CAO SU LẤY NÉT */}
         <div className="absolute inset-[-2%] rounded-full border-[15px] border-[#1a1a1a]"
@@ -241,25 +294,13 @@ const UltimateLensIntro: React.FC<IntroScreenProps> = ({ onIntroComplete }) => {
 
       </motion.div>
 
-      {/* Flash Effect */}
-      <motion.div
-        className="absolute top-20 left-40 flex items-center justify-center"
-        style={{
-          opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]),
-          pointerEvents: useTransform(smoothProgress, [0, 0.1], ['none', 'all']),
-        }}
-      >
-        <div className="w-20 h-10 bg-white blur-sm rounded-lg shadow-[0_0_30px_15px_rgba(255,255,255,0.8)] animate-pulse" />
-      </motion.div>
-
-
       {/* UI Hướng dẫn */}
       <motion.div
         className="absolute bottom-10 flex flex-col items-center gap-2"
         style={{ opacity: useTransform(smoothProgress, [0, 0.1], [1, 0]) }}
       >
         <div className="w-[1px] h-8 bg-gradient-to-b from-transparent via-gray-500 to-transparent" />
-        <span className="text-[20px] uppercase tracking-[0.3em] text-gray-500 font-mono">Scroll to Open</span>
+        <span className={`${isMobile ? 'text-[14px]' : 'text-[20px]'} uppercase tracking-[0.25em] text-gray-500 font-mono`}>Scroll to Open</span>
       </motion.div>
     </motion.div>
   );
