@@ -76,6 +76,7 @@ export interface UserAbout {
   linkedIn: string;
   github: string;
   facebook: string;
+  googleDeveloper: string;
   profile: Profile[];
   experience: Experience[];
   project_experience: Project[];

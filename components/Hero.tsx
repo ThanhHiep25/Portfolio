@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect, memo } from 'react';
-import { motion, useScroll,Variants, useReducedMotion } from 'framer-motion';
-import { 
-  Layers, 
-  Database, 
-  Terminal, 
-  Smartphone, 
-  Cpu, 
-  Globe, 
+import { motion, useScroll, Variants, useReducedMotion } from 'framer-motion';
+import {
+  Layers,
+  Database,
+  Terminal,
+  Smartphone,
+  Cpu,
+  Globe,
   Box,
   Zap,
   Moon,
@@ -17,19 +17,19 @@ import userAbout from '../data/dataAbout';
 
 const FloatingIcon = memo(({ icon: Icon, color, delay, initialPos }: any) => {
   const shouldReduceMotion = useReducedMotion();
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, ...initialPos }}
-      animate={shouldReduceMotion ? { opacity: 0.3 } : { 
+      animate={shouldReduceMotion ? { opacity: 0.3 } : {
         opacity: [0.3, 0.6, 0.3],
         y: [0, -40, 0],
         x: [0, 20, 0],
         rotate: [0, 10, -10, 0]
       }}
-      transition={{ 
-        duration: 10 + Math.random() * 5, 
-        repeat: Infinity, 
+      transition={{
+        duration: 10 + Math.random() * 5,
+        repeat: Infinity,
         delay,
         ease: "easeInOut"
       }}
@@ -42,7 +42,6 @@ const FloatingIcon = memo(({ icon: Icon, color, delay, initialPos }: any) => {
 
 const Hero: React.FC = () => {
   const user = userAbout[0];
-  const { scrollY } = useScroll();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const shouldReduceMotion = useReducedMotion();
 
@@ -73,7 +72,7 @@ const Hero: React.FC = () => {
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
+    visible: {
       opacity: 1, y: 0,
       transition: { duration: 0.6, ease: [0.19, 1, 0.22, 1] }
     }
@@ -86,7 +85,7 @@ const Hero: React.FC = () => {
       </header>
 
       {/* Dynamic Spotlight Effect */}
-      <div 
+      <div
         className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-1000 opacity-100 hidden lg:block"
         style={{
           background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(var(--primary-rgb), 0.08), transparent 80%)`,
@@ -110,31 +109,31 @@ const Hero: React.FC = () => {
 
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <motion.div variants={itemVariants} className="flex justify-center mb-8">
+          <motion.div variants={itemVariants} className="flex justify-center mb-8 mt-20 md:mt-1">
             <span className="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em] border border-primary/20 backdrop-blur-md">
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
               Sẵn sàng cho dự án mới
             </span>
           </motion.div>
-          
+
           <motion.div variants={itemVariants}>
             <p className="text-6xl md:text-8xl font-black tracking-tighter text-gray-900 dark:text-white mb-8 leading-[0.9]">
-              Tôi là {user.name.split(' ').pop()} <br/>
+              Tôi là {user.name.split(' ').pop()} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-primary bg-[length:200%_auto] animate-gradient-x drop-shadow-sm">
                 {user.job}
               </span>
             </p>
           </motion.div>
 
-          <motion.p 
+          <motion.p
             variants={itemVariants}
             className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium"
           >
             Xây dựng sản phẩm kỹ thuật số với trải nghiệm <span className="text-gray-900 dark:text-white font-bold">mượt mà</span> và mã nguồn <span className="text-gray-900 dark:text-white font-bold">tối ưu</span>.
           </motion.p>
-          
+
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <motion.a 
+            <motion.a
               href="#projects"
               whileHover={shouldReduceMotion ? {} : { scale: 1.02, y: -4 }}
               whileTap={{ scale: 0.98 }}
@@ -142,7 +141,7 @@ const Hero: React.FC = () => {
             >
               Xem dự án của tôi
             </motion.a>
-            <motion.a 
+            <motion.a
               href="#contact"
               whileHover={shouldReduceMotion ? {} : { scale: 1.02, y: -4 }}
               whileTap={{ scale: 0.98 }}
@@ -151,10 +150,21 @@ const Hero: React.FC = () => {
               Bắt đầu trò chuyện
             </motion.a>
           </motion.div>
+
+          <div className="w-full flex justify-center mt-5">
+            <a href={user.googleDeveloper} target="_blank" rel="noopener noreferrer">
+              <motion.img
+                whileHover={shouldReduceMotion ? {} : { scale: 1.1, y: -5, rotate: -5 }}
+                src="/GGD.png"
+                alt="Google Developers Logo"
+                className="w-24 h-24 shadow-md rounded-full" />
+            </a>
+          </div>
+
         </motion.div>
       </div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
@@ -162,7 +172,7 @@ const Hero: React.FC = () => {
       >
         <a href="#about" className="flex flex-col items-center group" aria-label="Cuộn xuống giới thiệu">
           <div className="w-8 h-12 border-2 border-gray-300 dark:border-gray-700 rounded-full flex justify-center p-2 group-hover:border-primary transition-colors">
-            <motion.div 
+            <motion.div
               animate={{ y: [0, 16, 0] }}
               transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
               className="w-1.5 h-1.5 bg-primary rounded-full"

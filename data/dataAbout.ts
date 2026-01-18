@@ -26,6 +26,7 @@ const userAbout : UsersAboutData = [
     linkedIn: "https://www.linkedin.com/in/nguyen-thanh-hiep-1694a9222/",
     github: "https://github.com/ThanhHiep25",
     facebook: "https://www.facebook.com/nguyen.hiep.25.04/",
+    googleDeveloper:'https://g.dev/nguyenthanhhiep',
     profile: [
       {
         profile_id: 1,

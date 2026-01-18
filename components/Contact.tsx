@@ -1,20 +1,20 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Github, 
-  Linkedin, 
-  Facebook, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Copy, 
-  Check, 
-  Send, 
-  Loader2, 
-  Sparkles, 
-  CheckCircle2, 
-  ArrowRight 
+import {
+  Github,
+  Linkedin,
+  Facebook,
+  Mail,
+  Phone,
+  MapPin,
+  Copy,
+  Check,
+  Send,
+  Loader2,
+  Sparkles,
+  CheckCircle2,
+  ArrowRight
 } from 'lucide-react';
 import userAbout from '../data/dataAbout';
 import { GoogleGenAI } from "@google/genai";
@@ -24,7 +24,7 @@ const Contact: React.FC = () => {
   const [emailCopied, setEmailCopied] = useState(false);
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [personalizedReply, setPersonalizedReply] = useState('');
-  
+
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -64,16 +64,16 @@ const Contact: React.FC = () => {
         contents: `Khách hàng tên ${formData.name} vừa gửi tin nhắn: "${formData.message}". Hãy viết 1 câu cảm ơn cực kỳ chuyên nghiệp, ngắn gọn (dưới 20 từ) để Alex gửi lại họ ngay lập tức. Xưng Alex, gọi Bạn.`,
       });
       setPersonalizedReply(response.text || `Cảm ơn ${formData.name}, Alex đã nhận được thông tin và sẽ phản hồi bạn sớm nhất!`);
-      
+
       console.log("Sending email with data:", formData);
-      
+
       // Giả lập delay mạng
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       setStatus('success');
       // Reset form sau khi gửi thành công
       setFormData({ name: '', email: '', message: '' });
-      
+
     } catch (error) {
       console.error("Gửi tin nhắn lỗi:", error);
       setStatus('error');
@@ -89,7 +89,7 @@ const Contact: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-2 gap-20 items-start">
-          
+
           {/* Left Side: Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -98,13 +98,13 @@ const Contact: React.FC = () => {
           >
             <span className="text-primary font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-[10px] mb-4 block">Get in touch</span>
             <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-gray-900 dark:text-white mb-6 md:mb-8 tracking-tighter leading-tight sm:leading-none">
-              Hãy cùng tạo nên <br/>
+              Hãy cùng tạo nên <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Điều Tuyệt Vời.</span>
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mb-8 md:mb-12 text-base sm:text-xl leading-relaxed font-medium max-w-lg">
               Alex luôn sẵn sàng lắng nghe ý tưởng của bạn. Gửi tin nhắn ngay để nhận phản hồi tự động từ AI của mình nhé!
             </p>
-            
+
             <div className="space-y-3 md:space-y-4 mb-8 md:mb-12">
               {[
                 { icon: <Phone size={20} />, text: user.phone, label: 'Điện thoại' },
@@ -120,7 +120,7 @@ const Contact: React.FC = () => {
                   </div>
                 </div>
               ))}
-              
+
               <div className="group flex items-center justify-between gap-2 sm:gap-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 shadow-sm hover:border-primary/30 transition-all">
                 <div className="flex items-center gap-3 sm:gap-5 overflow-hidden">
                   <div className="p-3 bg-primary/10 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all">
@@ -131,7 +131,7 @@ const Contact: React.FC = () => {
                     <span className="font-bold text-gray-700 dark:text-gray-200 block truncate text-sm sm:text-base">{user.email}</span>
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={handleCopyEmail}
                   className="p-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-400 hover:text-primary hover:bg-primary/10 transition-all"
                 >
@@ -152,12 +152,12 @@ const Contact: React.FC = () => {
 
             <div className="flex flex-wrap gap-3 sm:gap-4">
               {socialIcons.map((social) => (
-                <motion.a 
-                  key={social.name} 
-                  href={social.url} 
+                <motion.a
+                  key={social.name}
+                  href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -5 }}
+                  whileHover={{ scale: 1.1, y: -5, rotate: -5 }}
                   whileTap={{ scale: 0.9 }}
                   className="p-3 sm:p-4 bg-white dark:bg-gray-900 rounded-xl sm:rounded-2xl shadow-sm text-gray-400 hover:text-primary border border-gray-100 dark:border-white/5 hover:border-primary transition-all"
                   title={social.name}
@@ -165,6 +165,15 @@ const Contact: React.FC = () => {
                   {social.icon}
                 </motion.a>
               ))}
+              <a href={user.googleDeveloper} target="_blank" rel="noopener noreferrer">
+                <motion.img
+                  whileHover={{ scale: 1.1, y: -5, rotate: -5 }}
+                  whileTap={{ scale: 0.9 }}
+                  src="/GGD.png" alt="Google Developer"
+                  className="w-14 h-14 object-cover rounded-xl shadow-sm 
+                text-gray-400 hover:text-primary border border-gray-100 
+                dark:border-white/5 hover:border-primary transition-all" />
+              </a>
             </div>
           </motion.div>
 
@@ -183,7 +192,7 @@ const Contact: React.FC = () => {
                   <div className="mb-8 flex justify-center">
                     <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center text-primary relative">
                       <CheckCircle2 size={48} />
-                      <motion.div 
+                      <motion.div
                         animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
                         transition={{ repeat: Infinity, duration: 2 }}
                         className="absolute inset-0 bg-primary/20 rounded-full"
@@ -194,9 +203,9 @@ const Contact: React.FC = () => {
                   <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-6 sm:mb-8 font-medium">
                     Email tự động đã được gửi tới hộp thư của bạn. Hiệp cũng đã nhận được thông báo ngay lập tức.
                   </p>
-                  
+
                   {/* AI Response Card */}
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
@@ -211,7 +220,7 @@ const Contact: React.FC = () => {
                     </p>
                   </motion.div>
 
-                  <button 
+                  <button
                     onClick={() => setStatus('idle')}
                     className="flex items-center gap-2 mx-auto text-primary font-black text-[10px] uppercase tracking-widest hover:gap-4 transition-all"
                   >
@@ -219,7 +228,7 @@ const Contact: React.FC = () => {
                   </button>
                 </motion.div>
               ) : (
-                <motion.div 
+                <motion.div
                   key="form"
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -235,48 +244,48 @@ const Contact: React.FC = () => {
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Họ tên của bạn</label>
-                        <input 
+                        <input
                           required
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          type="text" 
-                          className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-transparent focus:border-primary focus:bg-white dark:focus:bg-gray-900 outline-none transition-all text-gray-900 dark:text-white font-bold" 
-                          placeholder="Nguyễn Văn A" 
+                          type="text"
+                          className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-transparent focus:border-primary focus:bg-white dark:focus:bg-gray-900 outline-none transition-all text-gray-900 dark:text-white font-bold"
+                          placeholder="Nguyễn Văn A"
                         />
                       </div>
                       <div className="space-y-2">
                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Địa chỉ Email</label>
-                        <input 
+                        <input
                           required
                           name="email"
                           value={formData.email}
                           onChange={handleInputChange}
-                          type="email" 
-                          className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-transparent focus:border-primary focus:bg-white dark:focus:bg-gray-900 outline-none transition-all text-gray-900 dark:text-white font-bold" 
-                          placeholder="email@example.com" 
+                          type="email"
+                          className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-transparent focus:border-primary focus:bg-white dark:focus:bg-gray-900 outline-none transition-all text-gray-900 dark:text-white font-bold"
+                          placeholder="email@example.com"
                         />
                       </div>
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Nội dung tin nhắn</label>
-                      <textarea 
+                      <textarea
                         required
                         name="message"
                         value={formData.message}
                         onChange={handleInputChange}
-                        rows={5} 
-                        className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-transparent focus:border-primary focus:bg-white dark:focus:bg-gray-900 outline-none transition-all text-gray-900 dark:text-white font-bold resize-none" 
+                        rows={5}
+                        className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-transparent focus:border-primary focus:bg-white dark:focus:bg-gray-900 outline-none transition-all text-gray-900 dark:text-white font-bold resize-none"
                         placeholder="Bạn muốn trao đổi về dự án nào?"
                       ></textarea>
                     </div>
-                    
-                    <button 
+
+                    <button
                       type="submit"
                       disabled={status === 'sending'}
                       className={`w-full py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3 shadow-xl 
-                        ${status === 'sending' 
-                          ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed' 
+                        ${status === 'sending'
+                          ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
                           : 'bg-primary text-white hover:bg-primary-hover shadow-primary/25 active:scale-95'}
                       `}
                     >
