@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://portfolio-nguyenhiep.vercel.app/sitemap.xml

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import userAbout from '../data/dataAbout';
 import { GoogleGenAI } from "@google/genai";
+import Footer from './Footer';
 
 const Contact: React.FC = () => {
   const user = userAbout[0];
@@ -313,18 +314,7 @@ const Contact: React.FC = () => {
             </AnimatePresence>
           </div>
         </div>
-
-        {/* Footer info */}
-        <div className="mt-16 md:mt-32 pt-8 md:pt-12 border-t border-gray-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
-          <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest">
-            © {new Date().getFullYear()} {user.name} Portfolio • Built with React & TailwindCSS
-          </p>
-          <div className="flex gap-8">
-            <a href="#about" className="text-[10px] font-black text-gray-400 hover:text-primary transition-colors uppercase tracking-widest">Về tôi</a>
-            <a href="#projects" className="text-[10px] font-black text-gray-400 hover:text-primary transition-colors uppercase tracking-widest">Dự án</a>
-            <a href="#skills" className="text-[10px] font-black text-gray-400 hover:text-primary transition-colors uppercase tracking-widest">Kỹ năng</a>
-          </div>
-        </div>
+        <Footer />
       </div>
     </section>
   );

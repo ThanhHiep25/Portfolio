@@ -11,6 +11,7 @@ import AIChat from '../components/AIChat';
 import DonateQR from '../components/DonateQR';
 import { AppSettings } from '../types';
 import { THEME_COLORS } from '../constants';
+import SEO from '../components/SEO';
 
 interface PortfolioPageProps {
   settings: AppSettings;
@@ -28,6 +29,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ settings, updateSettings,
 
   return (
     <>
+      <SEO />
       {/* Performance Optimized Background */}
       <div className="fixed inset-0 z-0 pointer-events-none" style={{ transform: 'translateZ(0)' }}>
         <motion.div

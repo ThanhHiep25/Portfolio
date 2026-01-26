@@ -1,4 +1,3 @@
-
 export interface Profile {
   profile_id: number;
   profile_des: string;
@@ -8,11 +7,16 @@ export interface Profile {
 export interface Experience {
   experience_id: number;
   experience_name: string;
-  experience_des: string;
+  experience_des?: string;
   experience_year: string;
   experience_location: string;
   experience_position?: string;
   experience_img?: string;
+  experience_step1?: string;
+  experience_step2?: string;
+  experience_step3?: string;
+  experience_step4?: string;
+  experience_step5?: string;
 }
 
 export interface TechType {
