@@ -80,9 +80,6 @@ const Hero: React.FC = () => {
 
   return (
     <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-gray-950">
-      <header className="sr-only">
-        <h1>{user.name} - {user.job} Portfolio</h1>
-      </header>
 
       {/* Dynamic Spotlight Effect */}
       <div
@@ -117,12 +114,12 @@ const Hero: React.FC = () => {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <p className="text-6xl md:text-8xl font-black tracking-tighter text-gray-900 dark:text-white mb-8 leading-[0.9]">
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-gray-900 dark:text-white mb-8 leading-[0.9]">
               Tôi là {user.name.split(' ').pop()} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-primary bg-[length:200%_auto] animate-gradient-x drop-shadow-sm">
                 {user.job}
               </span>
-            </p>
+            </h1>
           </motion.div>
 
           <motion.p

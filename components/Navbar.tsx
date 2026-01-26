@@ -26,23 +26,28 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSettings }) => {
   }, []);
 
   return (
-    <nav 
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        scrolled 
-          ? 'bg-white/70 dark:bg-gray-950/70 backdrop-blur-xl shadow-2xl py-3 border-b border-gray-200/20 dark:border-white/5' 
-          : 'bg-transparent py-6'
-      }`}
+    <nav
+      className={`fixed w-full z-50 transition-all duration-500 ${scrolled
+        ? 'bg-white/70 dark:bg-gray-950/70 backdrop-blur-xl shadow-2xl py-3 border-b border-gray-200/20 dark:border-white/5'
+        : 'bg-transparent py-6'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="flex-shrink-0"
           >
             <Link
               to="/"
+              onClick={() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+                });
+              }}
               className="font-black text-2xl tracking-tighter text-gray-900 dark:text-white flex items-center gap-1 group"
             >
               <span className="group-hover:text-primary transition-colors">{firstName}</span>
@@ -59,11 +64,10 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSettings }) => {
                   <Link
                     key={item.name}
                     to="/template"
-                    className={`text-sm font-bold tracking-tight px-4 py-2 rounded-full transition-all ${
-                      location.pathname === '/template'
-                        ? 'text-primary bg-gray-100 dark:bg-white/5'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-white/5'
-                    }`}
+                    className={`text-sm font-bold tracking-tight px-4 py-2 rounded-full transition-all ${location.pathname === '/template'
+                      ? 'text-primary bg-gray-100 dark:bg-white/5'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-white/5'
+                      }`}
                   >
                     {item.name}
                   </Link>
@@ -79,45 +83,45 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSettings }) => {
               })}
             </div>
             <motion.button
-              animate={{ 
+              animate={{
                 scale: [1, 1.05, 1],
               }}
-              transition={{ 
-                duration: 2.5, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "easeInOut"
               }}
-              whileHover={{ 
-                scale: 1.1, 
+              whileHover={{
+                scale: 1.1,
                 boxShadow: "0 10px 25px -5px rgb(0 0 0 / 0.2)",
-                backgroundColor: "var(--gray-100)" 
+                backgroundColor: "var(--gray-100)"
               }}
               whileTap={{ scale: 0.95 }}
-              onClick={ () => {
+              onClick={() => {
                 window.open('/template', '_auto');
-              } }
-             className="
+              }}
+              className="
               px-4 py-2 rounded-full bg- transition-colors
               flex items-center justify-center
               text-sm font-bold tracking-tight text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary hover:bg-gray-100 dark:hover:bg-white/5 active:text-primary-hover
             ">
-              <Terminal size={14} 
-              className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" />
+              <Terminal size={14}
+                className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" />
               Mẫu UI
             </motion.button>
             <motion.button
-              animate={{ 
+              animate={{
                 scale: [1, 1.05, 1],
               }}
-              transition={{ 
-                duration: 2.5, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "easeInOut"
               }}
-              whileHover={{ 
-                scale: 1.1, 
+              whileHover={{
+                scale: 1.1,
                 boxShadow: "0 10px 25px -5px rgb(0 0 0 / 0.2)",
-                backgroundColor: "var(--primary-hover)" 
+                backgroundColor: "var(--primary-hover)"
               }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleSettings}
@@ -157,11 +161,10 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSettings }) => {
                     key={item.name}
                     to="/template"
                     onClick={() => setIsOpen(false)}
-                    className={`block px-4 py-4 rounded-2xl text-lg font-black tracking-tight transition-all ${
-                      location.pathname === '/template'
-                        ? 'text-primary bg-gray-50 dark:bg-white/5'
-                        : 'text-gray-800 dark:text-gray-200 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5'
-                    }`}
+                    className={`block px-4 py-4 rounded-2xl text-lg font-black tracking-tight transition-all ${location.pathname === '/template'
+                      ? 'text-primary bg-gray-50 dark:bg-white/5'
+                      : 'text-gray-800 dark:text-gray-200 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5'
+                      }`}
                   >
                     {item.name}
                   </Link>

@@ -42,6 +42,7 @@ import {
     Sun,
 } from 'lucide-react';
 import { nav } from 'framer-motion/client';
+import SEO from './SEO';
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800";
 
@@ -189,10 +190,10 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId, onBack, onSele
                 className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950"
             >
                 <button
-                onClick={()=>{
-                    onBack();
-                    window.location.reload();
-                }}
+                    onClick={() => {
+                        onBack();
+                        window.location.reload();
+                    }}
                     className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/10 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
                 >
                     <ArrowLeft size={18} />
@@ -209,6 +210,13 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId, onBack, onSele
             exit={{ opacity: 0 }}
             className="min-h-screen bg-gray-50 dark:bg-gray-950 py-12 relative"
         >
+            <SEO
+                title={`${project.project_name} | Dự án Portfolio`}
+                description={project.project_des}
+                keywords={`${project.project_name}, ${project.category}, ${project.project_type.map(t => t.type_name).join(', ')}, Nguyễn Hiệp Portfolio`}
+                image={project.project_img || FALLBACK_IMAGE}
+                type="article"
+            />
 
             {/* Floating Tech Icons */}
             <div className="fixed inset-0 pointer-events-none opacity-30 dark:opacity-60" style={{ zIndex: 0 }} aria-hidden="true">
@@ -341,8 +349,8 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId, onBack, onSele
                             key={tab}
                             onClick={() => setActiveTab(tab as any)}
                             className={`pb-4 font-black text-sm uppercase tracking-wider transition-all relative ${activeTab === tab
-                                    ? 'text-primary'
-                                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                                ? 'text-primary'
+                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                                 }`}
                         >
                             {tab === 'overview' ? 'Tổng quan' : tab === 'technologies' ? 'Công nghệ' : 'Lộ trình'}
@@ -516,10 +524,10 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId, onBack, onSele
                                         >
                                             <div
                                                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-md border-4 border-white dark:border-gray-900 ${step.status === 'done'
-                                                        ? 'bg-primary text-white'
-                                                        : step.status === 'active'
-                                                            ? 'bg-primary/20 text-primary animate-pulse border-primary/50'
-                                                            : 'bg-gray-100 dark:bg-white/5 text-gray-400'
+                                                    ? 'bg-primary text-white'
+                                                    : step.status === 'active'
+                                                        ? 'bg-primary/20 text-primary animate-pulse border-primary/50'
+                                                        : 'bg-gray-100 dark:bg-white/5 text-gray-400'
                                                     }`}
                                             >
                                                 {step.icon}

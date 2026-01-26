@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
-import Navbar from '../components/Navbar';
 import Template from '../components/Template';
 import { AppSettings } from '../types';
+
+import SEO from '../components/SEO';
+import Footer from '@/components/Footer';
 
 interface TemplatePageProps {
   settings: AppSettings;
@@ -16,6 +18,11 @@ const TemplatePage: React.FC<TemplatePageProps> = ({ settings, updateSettings, t
 
   return (
     <>
+      <SEO
+        title="Template Gallery | Nguyễn Hiệp"
+        description="Khám phá bộ sưu tập template website chuyên nghiệp, hiện đại và tối ưu SEO."
+        keywords="Template Website, React Template, Next.js Template, Landing Page UI, Web Design Portfolio"
+      />
       {/* Performance Optimized Background */}
       <div className="fixed inset-0 z-0 pointer-events-none" style={{ transform: 'translateZ(0)' }}>
         <motion.div
@@ -34,12 +41,11 @@ const TemplatePage: React.FC<TemplatePageProps> = ({ settings, updateSettings, t
       </div>
 
       <div className="relative z-10">
-     
-
         <main>
           <Template />
         </main>
       </div>
+      <Footer />
     </>
   );
 };
