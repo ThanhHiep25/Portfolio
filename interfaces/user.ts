@@ -24,6 +24,12 @@ export interface TechType {
   type_name: string;
 }
 
+export interface ProjectDesStep {
+  step_id: number;
+  step_title: string;
+  step_des: string;
+}
+
 export interface Project {
   project_id: number;
   project_name: string;
@@ -36,6 +42,7 @@ export interface Project {
   project_type: TechType[];
   type?: TechType[];
   status?: string;
+  project_des_steps?: ProjectDesStep[];
 }
 
 export interface Skill {

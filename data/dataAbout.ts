@@ -37,13 +37,13 @@ const userAbout: UsersAboutData = [
       {
         profile_id: 1,
         profile_des:
-          "Tôi là một kỹ sư phần mềm chuyên sâu về hệ sinh thái React. Với tư duy giải quyết vấn đề bằng công nghệ, tôi tập trung vào việc tạo ra các giao diện người dùng có tính thẩm mỹ cao và kiến trúc mã nguồn bền vững.",
+          "Tôi là một kỹ sư phần mềm chuyên sâu về hệ sinh thái React, NextJS, TypeScript. Với tư duy giải quyết vấn đề bằng công nghệ, tôi tập trung vào việc tạo ra các giao diện người dùng có tính thẩm mỹ cao và kiến trúc mã nguồn bền vững.",
         profile_img: "",
       },
       {
         profile_id: 2,
         profile_des:
-          "Bên cạnh Frontend, tôi đang mở rộng năng lực sang mảng Full-stack với Golang và Node.js để làm chủ toàn bộ vòng đời phát triển sản phẩm, từ ý tưởng đến triển khai thực tế.",
+          "Bên cạnh Frontend, tôi đang mở rộng năng lực sang mảng Full-stack với Springboot và Node.js để làm chủ toàn bộ vòng đời phát triển sản phẩm, từ ý tưởng đến triển khai thực tế.",
         profile_img: "",
       },
     ],
@@ -85,7 +85,7 @@ const userAbout: UsersAboutData = [
         experience_step4:
           "Quản lý toàn bộ vòng đời phát triển sản phẩm, từ lên ý tưởng, thiết kế, lập trình đến triển khai và bảo trì.",
         experience_step5:
-          "Liên tục học hỏi và cập nhật các xu hướng công nghệ mới để nâng cao kỹ năng và mang lại giá trị tốt nhất cho khách hàng.",
+          "Liên tục học hỏi và cập nhật các xu hướng công nghệ mới để nâng cao kỹ năng và mang lại giá trị tốt nhất cho bản thân và khách hàng.",
       },
     ],
     project_experience: [
@@ -93,7 +93,7 @@ const userAbout: UsersAboutData = [
         project_id: 101,
         project_name: "SkyChat Enterprise",
         project_des:
-          "Hệ thống truyền thông nội bộ quy mô lớn hỗ trợ hàng nghìn người dùng đồng thời. Tích hợp WebRTC cho cuộc gọi video và Socket.io cho tin nhắn tức thời.",
+          "Hệ thống truyền thông nội bộ quy mô lớn hỗ trợ hàng nghìn người dùng đồng thời.",
         project_img: imgChatPlatform,
         project_link: "https://github.com/ThanhHiep25/App_Chat_CNM",
         category: "Fullstack",
@@ -102,7 +102,9 @@ const userAbout: UsersAboutData = [
           { type_id: 1, type_name: "ReactJS" },
           { type_id: 2, type_name: "Node.js" },
           { type_id: 3, type_name: "Redis" },
-          { type_id: 4, type_name: "WebRTC" },
+          { type_id: 4, type_name: "Firebase" },
+          { type_id: 5, type_name: "React Native" },
+          { type_id: 6, type_name: "Restful APIs" },
         ],
         status: "Completed",
       },
@@ -117,25 +119,30 @@ const userAbout: UsersAboutData = [
         project_year: "2025",
         project_type: [
           { type_id: 1, type_name: "NextJS" },
-          { type_id: 2, type_name: "Tailwind" },
-          { type_id: 3, type_name: "PostgreSQL" },
+          { type_id: 2, type_name: "Tailwind CSS" },
+          { type_id: 3, type_name: "MySQL" },
           { type_id: 4, type_name: "Recharts" },
+          { type_id: 5, type_name: "Restful APIs" },
+          { type_id: 6, type_name: "TypeScript" },
+          { type_id: 7, type_name: "Animation" },
+          { type_id: 8, type_name: "Responsive" },
         ],
         status: "Completed",
       },
       {
         project_id: 103,
         project_name: "Culina Recipe Hub",
-        project_des:
-          "Ứng dụng chia sẻ công thức nấu ăn tích hợp AI nhận diện món ăn qua hình ảnh. Hệ thống gợi ý món ăn dựa trên nguyên liệu hiện có.",
+        project_des: "Ứng dụng chia sẻ công thức nấu ăn qua hình ảnh.",
         project_img: imgRecipeApp,
         project_link: "https://github.com/ThanhHiep25/Recipe",
         category: "Mobile App",
         project_year: "2023 - 2024",
         project_type: [
           { type_id: 1, type_name: "React Native" },
-          { type_id: 2, type_name: "TensorFlow.js" },
+          { type_id: 2, type_name: "Restful APIs" },
           { type_id: 3, type_name: "Firebase" },
+          { type_id: 4, type_name: "Animation" },
+          { type_id: 5, type_name: "Responsive" },
         ],
         status: "Completed",
       },
