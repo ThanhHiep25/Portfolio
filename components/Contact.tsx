@@ -103,7 +103,7 @@ const Contact: React.FC = () => {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Điều Tuyệt Vời.</span>
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mb-8 md:mb-12 text-base sm:text-xl leading-relaxed font-medium max-w-lg">
-              Alex luôn sẵn sàng lắng nghe ý tưởng của bạn. Gửi tin nhắn ngay để nhận phản hồi tự động từ AI của mình nhé!
+              Tôi luôn sẵn sàng lắng nghe ý tưởng của bạn. Gửi tin nhắn ngay để nhận phản hồi tự động từ AI của tôi nhé!
             </p>
 
             <div className="space-y-3 md:space-y-4 mb-8 md:mb-12">
@@ -187,7 +187,7 @@ const Contact: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                  className="bg-white dark:bg-gray-900 p-6 sm:p-10 md:p-16 rounded-2xl sm:rounded-[3rem] shadow-2xl border border-primary/20 text-center relative overflow-hidden"
+                  className="bg-white dark:bg-gray-900 p-6 sm:p-10 md:p-16 rounded-2xl sm:rounded-[3rem] shadow-2xl text-center relative overflow-hidden"
                 >
                   <div className="absolute top-0 left-0 w-full h-2 bg-primary"></div>
                   <div className="mb-8 flex justify-center">

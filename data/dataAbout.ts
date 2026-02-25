@@ -58,9 +58,9 @@ const userAbout: UsersAboutData = [
         experience_position: "Software Engineer",
         experience_location: "Quận 1, Hồ Chí Minh, Vietnam",
         experience_step1:
-          "Tham gia vào quy trình phát triển phần mềm, từ khâu lên ý tưởng, thiết kế giao diện đến triển khai.",
+          "Tham gia vào quy trình phát triển phần mềm, thiết kế giao diện đến triển khai.",
         experience_step2:
-          "Xây dựng các tính năng mới, tối ưu hóa hiệu suất và đảm bảo chất lượng sản phẩm theo yêu cầu của khách hàng.",
+          "Xây dựng các tính năng mới, tối ưu hóa hiệu suất và đảm bảo chất lượng sản phẩm theo yêu cầu.",
         experience_step3:
           "Làm việc với các công nghệ hiện đại như ReactJS, TailwindCss, TypeScript và các RESTful APIs để tạo ra trải nghiệm người dùng tốt nhất.",
         experience_step4:
@@ -77,7 +77,7 @@ const userAbout: UsersAboutData = [
         experience_position: "Software Engineer",
         experience_location: "Remote",
         experience_step1:
-          "Làm việc với các dự án đa dạng từ startup đến doanh nghiệp lớn, tiếp xúc với nhiều mô hình kinh doanh và yêu cầu kỹ thuật khác nhau.",
+          "Làm việc với các dự án đa dạng từ các người dùng riêng lẻ và doanh nghiệp, tiếp xúc với nhiều mô hình kinh doanh và yêu cầu kỹ thuật khác nhau.",
         experience_step2:
           "Phát triển và triển khai các giải pháp phần mềm toàn diện, từ giao diện người dùng đến cơ sở dữ liệu và API.",
         experience_step3:
@@ -191,7 +191,7 @@ const userAbout: UsersAboutData = [
       { skill_id: 9, skill_name: "Framer Motion", skill_level: "85" },
       { skill_id: 10, skill_name: "Git / Docker", skill_level: "85" },
       { skill_id: 11, skill_name: "Figma (UI/UX)", skill_level: "75" },
-      { skill_id: 12, skill_name: "REST APIs / Socket.io", skill_level: "90" },
+      { skill_id: 12, skill_name: "REST APIs / Socket.io", skill_level: "80" },
     ],
     language: [
       { language_id: 1, language_name: "Tiếng Việt", language_level: "5" },
@@ -203,7 +203,7 @@ const userAbout: UsersAboutData = [
         education_name: "IUH - Đại học Công nghiệp TP. HCM",
         education_year: "2020 - 2025",
         education_img: iuh,
-        education_des: "Chuyên ngành Kỹ thuật Phần mềm - Công nghệ Thông tin",
+        education_des: "Chuyên ngành Kỹ thuật Phần mềm (Kỹ sư/Engineer)",
       },
       {
         education_id: 2,
@@ -216,7 +216,7 @@ const userAbout: UsersAboutData = [
     certificate: [
       {
         certificate_id: 1,
-        certificate_name: "Phần mềm Máy tính",
+        certificate_name: "Computer Software",
         certificate_year: "2022",
         certificate_img: "",
         certificate_des: "Codelearn.io",
@@ -225,16 +225,16 @@ const userAbout: UsersAboutData = [
       },
       {
         certificate_id: 2,
-        certificate_name: "Phần cứng Máy tính",
+        certificate_name: "Algorithm & Data Structure",
         certificate_year: "2022",
         certificate_img: "",
         certificate_des: "Codelearn.io",
-        certificate_link:
-          "https://codelearn.io/share/a227874b-878c-4076-8da3-c6cf74002073",
+        certificate_link: "",
       },
       {
         certificate_id: 3,
-        certificate_name: "BẰNG KHEN ĐẢNG CỘNG SẢN VIỆT NAM - ĐẢNG ỦY",
+        certificate_name:
+          "KHEN THƯỞNG CỦA ĐẢNG CỘNG SẢN VIỆT NAM - ĐẢNG ỦY PHƯỜNG",
         certificate_year: "2025",
         certificate_img: "/cre__ph.jpg",
         certificate_des: "ĐẢNG CỘNG SẢN VIỆT NAM",
