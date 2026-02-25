@@ -11,7 +11,8 @@ import {
   Box,
   Zap,
   Moon,
-  Sun
+  Sun,
+  CheckCircle2
 } from 'lucide-react';
 import userAbout from '../data/dataAbout';
 
@@ -79,7 +80,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-gray-950">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-gray-950 pt-24 pb-12">
 
       {/* Dynamic Spotlight Effect */}
       <div
@@ -104,18 +105,12 @@ const Hero: React.FC = () => {
         <FloatingIcon icon={Sun} color="text-gray-500" delay={4.5} initialPos={{ bottom: '40%', left: '60%' }} />
       </div>
 
-      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <motion.div variants={itemVariants} className="flex justify-center mb-8 mt-20 md:mt-1">
-            <span className="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em] border border-primary/20 backdrop-blur-md">
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-              Sẵn sàng cho dự án mới
-            </span>
-          </motion.div>
+      <div className="relative z-10 text-center px-4 md:max-w-7xl max-w-5xl mx-auto">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="flex flex-col items-center">
 
-          <motion.div variants={itemVariants}>
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-gray-900 dark:text-white mb-8 leading-[0.9]">
-              Tôi là {user.name.split(' ').pop()} <br />
+          <motion.div variants={itemVariants} className="flex justify-center mt-20">
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gray-900 dark:text-white mb-8 leading-[1.1]">
+              Tôi là {user.name.toUpperCase()} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-primary bg-[length:200%_auto] animate-gradient-x drop-shadow-sm">
                 {user.job}
               </span>
@@ -124,12 +119,12 @@ const Hero: React.FC = () => {
 
           <motion.p
             variants={itemVariants}
-            className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium"
+            className="text-xl md:text-xl text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium"
           >
-            Xây dựng sản phẩm kỹ thuật số với trải nghiệm <span className="text-gray-900 dark:text-white font-bold">mượt mà</span> và mã nguồn <span className="text-gray-900 dark:text-white font-bold">tối ưu</span>.
+            Xây dựng sản phẩm kỹ thuật số với trải nghiệm <span className="text-gray-900 dark:text-white font-bold">mượt mà</span> và mã nguồn <span className="text-gray-900 dark:text-white font-bold">tối ưu</span>. Đang tiềm kiếm con đường mới của mình.
           </motion.p>
 
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-6">
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
             <motion.a
               href="#projects"
               whileHover={shouldReduceMotion ? {} : { scale: 1.02, y: -4 }}
@@ -148,20 +143,34 @@ const Hero: React.FC = () => {
             </motion.a>
           </motion.div>
 
-          <div className="w-full flex justify-center mt-5">
-            <a href={user.googleDeveloper} target="_blank" rel="noopener noreferrer">
+          <div className="relative group w-full flex justify-center mb-10">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 z-10 rounded-2xl"></div>
+
+            <div className="w-full rounded-2xl overflow-hidden ">
+              <img src="/banner.jpg" alt="banner" className="w-full h-auto object-cover" />
+            </div>
+
+            <a href={user.googleDeveloper}
+              className="absolute md:bottom-12 bottom-2 md:left-10 transform z-10 flex items-center gap-2 backdrop-blur-md p-1 rounded-xl"
+              target="_blank" rel="noopener noreferrer">
               <motion.img
                 whileHover={shouldReduceMotion ? {} : { scale: 1.1, y: -5, rotate: -5 }}
                 src="/GGD.png"
                 alt="Google Developers Logo"
-                className="w-24 h-24 shadow-md rounded-full" />
+                className="w-16 h-16 shadow-md rounded-xl group-hover:scale-110 group-hover:border-2 group-hover:border-primary transition-all" />
+              <div className="flex flex-col items-start gap-1" >
+                <p className="text-white text-xl font-bold flex items-center gap-2">Google Developer <CheckCircle2 className="text-blue-500" size={20} /></p>
+                <p className="text-white text-[12px]">Xác nhận bởi Google và đã tham gia các sự kiện của Google</p>
+              </div>
             </a>
           </div>
+
+
 
         </motion.div>
       </div>
 
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
@@ -176,7 +185,7 @@ const Hero: React.FC = () => {
             />
           </div>
         </a>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 };

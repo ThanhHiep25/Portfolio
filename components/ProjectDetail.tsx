@@ -260,7 +260,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId, onBack, onSele
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                                 <div className="bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-100 dark:border-white/5">
                                     <div className="text-xs text-gray-500 dark:text-gray-400 font-black uppercase tracking-wider mb-2">Năm</div>
-                                    <div className="text-2xl font-black text-gray-900 dark:text-white">{project.project_year}</div>
+                                    <div className="text-xl font-black text-gray-900 dark:text-white">{project.project_year}</div>
                                 </div>
                                 <div className="bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-100 dark:border-white/5">
                                     <div className="text-xs text-gray-500 dark:text-gray-400 font-black uppercase tracking-wider mb-2">Trạng thái</div>
@@ -323,6 +323,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId, onBack, onSele
                                     className="w-full h-full object-cover"
                                 />
                             </div>
+
                         </motion.div>
                     </div>
                 </motion.div>
@@ -376,6 +377,20 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId, onBack, onSele
                             exit={{ opacity: 0, y: -20 }}
                             className="space-y-12 mb-16"
                         >
+                            {/* ProjectDes Steps */}
+                            {
+                                project.project_des_steps?.map((step, index) => (
+                                    <div key={index} className="flex items-start gap-4 mb-4">
+                                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white font-black">
+                                            {index + 1}
+                                        </div>
+                                        <div className="flex-1">
+                                            <h4 className="text-lg font-black text-gray-900 dark:text-white mb-2">{step.step_title}</h4>
+                                            <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-justify">{step.step_des}</p>
+                                        </div>
+                                    </div>
+                                ))
+                            }
                             {/* Share Section */}
                             <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-white/5">
                                 <div className="flex items-center gap-3 mb-6">

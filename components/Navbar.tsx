@@ -15,7 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSettings }) => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const user = userAbout[0];
-  const firstName = user.name.split(' ').pop()?.toUpperCase() || 'USER';
+  const fullName = user.name.toUpperCase() || 'USER';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSettings }) => {
               }}
               className="font-black text-2xl tracking-tighter text-gray-900 dark:text-white flex items-center gap-1 group"
             >
-              <span className="group-hover:text-primary transition-colors">{firstName}</span>
+              <span className="group-hover:text-primary transition-colors">{fullName}</span>
               <span className="text-primary group-hover:text-gray-900 dark:group-hover:text-white transition-colors">.DEV</span>
             </Link>
           </motion.div>

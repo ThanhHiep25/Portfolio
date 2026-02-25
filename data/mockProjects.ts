@@ -214,7 +214,45 @@ export const mockProjects: Project[] = [
     project_id: 16,
     project_name: "CheckIn - QR System",
     project_des:
-      "Giải pháp điểm danh qua mã QR cho các sự kiện và văn phòng, tích hợp dashboard quản lý thời gian thực.",
+      "Phần mềm được sử dụng trong Đại hội Đại biểu Đảng Cộng Sản Việt Nam lần thứ 1, nhiệm kỳ 2025-2030",
+    project_des_steps: [
+      {
+        step_id: 1,
+        step_title: "Mục tiêu dự án",
+        step_des:
+          "Phần mềm được sử dụng trong Đại hội Đại biểu Đảng Cộng Sản Việt Nam lần thứ 1, nhiệm kỳ 2025-2030",
+      },
+      {
+        step_id: 2,
+        step_title: "Thách thức & Yêu cầu",
+        step_des:
+          "Với số lượng ước tính khoản 300 - 1000 người tham dự, cần có hệ thống check-in nhanh chóng và chính xác, không gây ùn tắc. Giao diện phải thân thiện với người dùng, dễ sử dụng. Vừa hiển thị thông tin Đại biểu, vừa hiển thị thông tin check-in, số ghế và vị trí ngồi.",
+      },
+      {
+        step_id: 3,
+        step_title: "Giải pháp QR Code",
+        step_des:
+          "Mỗi Đại biểu sẽ được hệ thống gán mã QR để check-in, dựa theo hình ảnh và thông tin đã cung câp trước đó, giúp check-in nhanh chóng và tìm hiển thị chính xác thông tin Đại biểu, số ghế và vị trí ngồi.",
+      },
+      {
+        step_id: 4,
+        step_title: "Tính linh hoạt",
+        step_des:
+          "Hệ thống có tính linh hoạt, dễ dàng thay đổi thông tin, dễ dàng thêm, sửa, xóa thông tin.",
+      },
+      {
+        step_id: 5,
+        step_title: "Realtime & Đa thiết bị",
+        step_des:
+          "Có thể sử dụng nhiều thiết bị để check-in cùng lúc, và cập nhật thông tin hiển thị Đại biểu trên màn hình lớn realtime dựa trên socket.io. Về hình ảnh sẽ lưu trên Cloudinary, còn về thông tin sẽ lưu trên database(MongoDB).",
+      },
+      {
+        step_id: 6,
+        step_title: "Bảo mật & Xác thực",
+        step_des:
+          "Hệ thống có tính bảo mật cao, Để tranh lộ thông tin cá nhân của Đại biểu, chỉ có Admin mới có quyền truy cập vào hệ thống và thay đổi thông tin.",
+      },
+    ],
     project_img: dangbo,
     project_link: "https://github.com/ThanhHiep25/Doan-IUH-CheckInQR",
     project_demo: "https://check-in-doaniuh.netlify.app/",
@@ -225,6 +263,10 @@ export const mockProjects: Project[] = [
       { type_id: 2, type_name: "TailwindCSS" },
       { type_id: 5, type_name: "Socket.IO" },
       { type_id: 6, type_name: "Cloudinary" },
+      { type_id: 7, type_name: "MongoDB" },
+      { type_id: 8, type_name: "JWT" },
+      { type_id: 9, type_name: "ExpressJS" },
+      { type_id: 10, type_name: "NodeJS" },
     ],
     status: "Completed",
   },
@@ -309,6 +351,26 @@ export const mockProjects: Project[] = [
       { type_id: 5, type_name: "Recharts" },
       { type_id: 9, type_name: "Cloudinary" },
       { type_id: 10, type_name: "VNPay" },
+    ],
+    status: "Completed",
+  },
+  {
+    project_id: 21,
+    project_name: "AvantVN Fashion",
+    project_des:
+      "AvantVN Fashion là một trang web bán hàng thời trang với thiết kế phá cách, bất đôi xứng. Mang tới cảm giác trải nghiệm mới lạ và thú vị cho khách hàng.",
+    project_img: "/template/avant/Screenshot 2026-01-21 010601.jpg",
+    project_link: "",
+    project_demo: "https://avantvn.vercel.app/",
+    category: "Frontend",
+    project_year: "22/01/2026",
+    project_type: [
+      { type_id: 1, type_name: "ReactJS" },
+      { type_id: 2, type_name: "TailwindCSS" },
+      { type_id: 3, type_name: "APIs" },
+      { type_id: 4, type_name: "Context" },
+      { type_id: 5, type_name: "Motion" },
+      { type_id: 6, type_name: "SEO" },
     ],
     status: "Completed",
   },

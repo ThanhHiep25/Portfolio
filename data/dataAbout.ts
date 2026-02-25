@@ -37,13 +37,13 @@ const userAbout: UsersAboutData = [
       {
         profile_id: 1,
         profile_des:
-          "Tôi là một kỹ sư phần mềm chuyên sâu về hệ sinh thái React. Với tư duy giải quyết vấn đề bằng công nghệ, tôi tập trung vào việc tạo ra các giao diện người dùng có tính thẩm mỹ cao và kiến trúc mã nguồn bền vững.",
+          "Tôi là một kỹ sư phần mềm chuyên sâu về hệ sinh thái React, NextJS, TypeScript. Với tư duy giải quyết vấn đề bằng công nghệ, tôi tập trung vào việc tạo ra các giao diện người dùng có tính thẩm mỹ cao và kiến trúc mã nguồn bền vững.",
         profile_img: "",
       },
       {
         profile_id: 2,
         profile_des:
-          "Bên cạnh Frontend, tôi đang mở rộng năng lực sang mảng Full-stack với Golang và Node.js để làm chủ toàn bộ vòng đời phát triển sản phẩm, từ ý tưởng đến triển khai thực tế.",
+          "Bên cạnh Frontend, tôi đang mở rộng năng lực sang mảng Full-stack với Springboot và Node.js để làm chủ toàn bộ vòng đời phát triển sản phẩm, từ ý tưởng đến triển khai thực tế.",
         profile_img: "",
       },
     ],
@@ -58,9 +58,9 @@ const userAbout: UsersAboutData = [
         experience_position: "Software Engineer",
         experience_location: "Quận 1, Hồ Chí Minh, Vietnam",
         experience_step1:
-          "Tham gia vào quy trình phát triển phần mềm, từ khâu lên ý tưởng, thiết kế giao diện đến triển khai.",
+          "Tham gia vào quy trình phát triển phần mềm, thiết kế giao diện đến triển khai.",
         experience_step2:
-          "Xây dựng các tính năng mới, tối ưu hóa hiệu suất và đảm bảo chất lượng sản phẩm theo yêu cầu của khách hàng.",
+          "Xây dựng các tính năng mới, tối ưu hóa hiệu suất và đảm bảo chất lượng sản phẩm theo yêu cầu.",
         experience_step3:
           "Làm việc với các công nghệ hiện đại như ReactJS, TailwindCss, TypeScript và các RESTful APIs để tạo ra trải nghiệm người dùng tốt nhất.",
         experience_step4:
@@ -77,7 +77,7 @@ const userAbout: UsersAboutData = [
         experience_position: "Software Engineer",
         experience_location: "Remote",
         experience_step1:
-          "Làm việc với các dự án đa dạng từ startup đến doanh nghiệp lớn, tiếp xúc với nhiều mô hình kinh doanh và yêu cầu kỹ thuật khác nhau.",
+          "Làm việc với các dự án đa dạng từ các người dùng riêng lẻ và doanh nghiệp, tiếp xúc với nhiều mô hình kinh doanh và yêu cầu kỹ thuật khác nhau.",
         experience_step2:
           "Phát triển và triển khai các giải pháp phần mềm toàn diện, từ giao diện người dùng đến cơ sở dữ liệu và API.",
         experience_step3:
@@ -85,7 +85,7 @@ const userAbout: UsersAboutData = [
         experience_step4:
           "Quản lý toàn bộ vòng đời phát triển sản phẩm, từ lên ý tưởng, thiết kế, lập trình đến triển khai và bảo trì.",
         experience_step5:
-          "Liên tục học hỏi và cập nhật các xu hướng công nghệ mới để nâng cao kỹ năng và mang lại giá trị tốt nhất cho khách hàng.",
+          "Liên tục học hỏi và cập nhật các xu hướng công nghệ mới để nâng cao kỹ năng và mang lại giá trị tốt nhất cho bản thân và khách hàng.",
       },
     ],
     project_experience: [
@@ -93,7 +93,7 @@ const userAbout: UsersAboutData = [
         project_id: 101,
         project_name: "SkyChat Enterprise",
         project_des:
-          "Hệ thống truyền thông nội bộ quy mô lớn hỗ trợ hàng nghìn người dùng đồng thời. Tích hợp WebRTC cho cuộc gọi video và Socket.io cho tin nhắn tức thời.",
+          "Hệ thống truyền thông nội bộ quy mô lớn hỗ trợ hàng nghìn người dùng đồng thời.",
         project_img: imgChatPlatform,
         project_link: "https://github.com/ThanhHiep25/App_Chat_CNM",
         category: "Fullstack",
@@ -102,7 +102,9 @@ const userAbout: UsersAboutData = [
           { type_id: 1, type_name: "ReactJS" },
           { type_id: 2, type_name: "Node.js" },
           { type_id: 3, type_name: "Redis" },
-          { type_id: 4, type_name: "WebRTC" },
+          { type_id: 4, type_name: "Firebase" },
+          { type_id: 5, type_name: "React Native" },
+          { type_id: 6, type_name: "Restful APIs" },
         ],
         status: "Completed",
       },
@@ -117,25 +119,30 @@ const userAbout: UsersAboutData = [
         project_year: "2025",
         project_type: [
           { type_id: 1, type_name: "NextJS" },
-          { type_id: 2, type_name: "Tailwind" },
-          { type_id: 3, type_name: "PostgreSQL" },
+          { type_id: 2, type_name: "Tailwind CSS" },
+          { type_id: 3, type_name: "MySQL" },
           { type_id: 4, type_name: "Recharts" },
+          { type_id: 5, type_name: "Restful APIs" },
+          { type_id: 6, type_name: "TypeScript" },
+          { type_id: 7, type_name: "Animation" },
+          { type_id: 8, type_name: "Responsive" },
         ],
         status: "Completed",
       },
       {
         project_id: 103,
         project_name: "Culina Recipe Hub",
-        project_des:
-          "Ứng dụng chia sẻ công thức nấu ăn tích hợp AI nhận diện món ăn qua hình ảnh. Hệ thống gợi ý món ăn dựa trên nguyên liệu hiện có.",
+        project_des: "Ứng dụng chia sẻ công thức nấu ăn qua hình ảnh.",
         project_img: imgRecipeApp,
         project_link: "https://github.com/ThanhHiep25/Recipe",
         category: "Mobile App",
         project_year: "2023 - 2024",
         project_type: [
           { type_id: 1, type_name: "React Native" },
-          { type_id: 2, type_name: "TensorFlow.js" },
+          { type_id: 2, type_name: "Restful APIs" },
           { type_id: 3, type_name: "Firebase" },
+          { type_id: 4, type_name: "Animation" },
+          { type_id: 5, type_name: "Responsive" },
         ],
         status: "Completed",
       },
@@ -184,7 +191,7 @@ const userAbout: UsersAboutData = [
       { skill_id: 9, skill_name: "Framer Motion", skill_level: "85" },
       { skill_id: 10, skill_name: "Git / Docker", skill_level: "85" },
       { skill_id: 11, skill_name: "Figma (UI/UX)", skill_level: "75" },
-      { skill_id: 12, skill_name: "REST APIs / Socket.io", skill_level: "90" },
+      { skill_id: 12, skill_name: "REST APIs / Socket.io", skill_level: "80" },
     ],
     language: [
       { language_id: 1, language_name: "Tiếng Việt", language_level: "5" },
@@ -196,7 +203,7 @@ const userAbout: UsersAboutData = [
         education_name: "IUH - Đại học Công nghiệp TP. HCM",
         education_year: "2020 - 2025",
         education_img: iuh,
-        education_des: "Chuyên ngành Kỹ thuật Phần mềm - Công nghệ Thông tin",
+        education_des: "Chuyên ngành Kỹ thuật Phần mềm (Kỹ sư/Engineer)",
       },
       {
         education_id: 2,
@@ -209,7 +216,7 @@ const userAbout: UsersAboutData = [
     certificate: [
       {
         certificate_id: 1,
-        certificate_name: "Phần mềm Máy tính",
+        certificate_name: "Computer Software",
         certificate_year: "2022",
         certificate_img: "",
         certificate_des: "Codelearn.io",
@@ -218,16 +225,16 @@ const userAbout: UsersAboutData = [
       },
       {
         certificate_id: 2,
-        certificate_name: "Phần cứng Máy tính",
+        certificate_name: "Algorithm & Data Structure",
         certificate_year: "2022",
         certificate_img: "",
         certificate_des: "Codelearn.io",
-        certificate_link:
-          "https://codelearn.io/share/a227874b-878c-4076-8da3-c6cf74002073",
+        certificate_link: "",
       },
       {
         certificate_id: 3,
-        certificate_name: "BẰNG KHEN ĐẢNG CỘNG SẢN VIỆT NAM - ĐẢNG ỦY",
+        certificate_name:
+          "KHEN THƯỞNG CỦA ĐẢNG CỘNG SẢN VIỆT NAM - ĐẢNG ỦY PHƯỜNG",
         certificate_year: "2025",
         certificate_img: "/cre__ph.jpg",
         certificate_des: "ĐẢNG CỘNG SẢN VIỆT NAM",
