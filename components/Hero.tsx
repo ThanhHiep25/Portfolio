@@ -15,6 +15,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import userAbout from '../data/dataAbout';
+import SlideShowSkill from '@/data/dataSkill';
 
 const FloatingIcon = memo(({ icon: Icon, color, delay, initialPos }: any) => {
   const shouldReduceMotion = useReducedMotion();
@@ -79,8 +80,10 @@ const Hero: React.FC = () => {
     }
   };
 
+  const duplicatedSkill = [...SlideShowSkill, ...SlideShowSkill];
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white dark:bg-gray-950 pt-24 pb-12">
+    <section id="home" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-950 pt-24 pb-12">
 
       {/* Dynamic Spotlight Effect */}
       <div
@@ -170,8 +173,24 @@ const Hero: React.FC = () => {
         </motion.div>
       </div>
 
+      {/* Slide Show Skill */}
+      <motion.div className="w-full overflow-hidden py-10">
+        <div className="flex items-center gap-10 w-max animate-infinite-scroll hover:[animation-play-state:paused]">
+          {
+            duplicatedSkill.map((item) => (
+              <motion.div
+                whileHover={shouldReduceMotion ? {} : { scale: 1.5, y: -5 }}
+                key={item.id} className="flex items-center">
+                <img src={item.imageSlide} alt={item.name} className="w-12 h-auto rounded-full transition-all" />
+              </motion.div>
+            ))
+          }
+        </div>
+
+      </motion.div >
+
       {/* <motion.div
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 0 }}                                      
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
@@ -186,7 +205,7 @@ const Hero: React.FC = () => {
           </div>
         </a>
       </motion.div> */}
-    </section>
+    </section >
   );
 };
 
