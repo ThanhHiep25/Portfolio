@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://portfolio-nguyenhiep.vercel.app/sitemap.xml
+Sitemap: https://www.nguyenhiep.dev/sitemap.xml
