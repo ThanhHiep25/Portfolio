@@ -16,12 +16,12 @@ const SEO: React.FC<SEOProps> = ({
     title = "Nguyễn Hiệp | Software Engineer | Full-stack Developer (ReactJS, Spring Boot)",
     description = "Nguyễn Hiệp - Software Engineer chuyên sâu ReactJS, NextJS và Spring Boot. Xây dựng giải pháp phần mềm tối ưu, hệ thống Check-in QR và ứng dụng quản lý hiện đại.",
     keywords = "Nguyễn Hiệp, Nguyen Hiep Dev, Software Engineer HCM, Front-end Developer ReactJS, Full-stack Developer Spring Boot, Lập trình viên Gò Vấp, IT CNTT, Web Developer Vietnam",
-    image = "https://portfolio-nguyenhiep.vercel.app/og-image.jpg",
+    image = "https://www.nguyenhiep.dev/og-image.jpg",
     type = "website",
     author = "Nguyễn Hiệp"
 }) => {
     const location = useLocation();
-    const canonicalUrl = `https://portfolio-nguyenhiep.vercel.app${location.pathname}`;
+    const canonicalUrl = `https://www.nguyenhiep.dev${location.pathname}`;
 
     return (
         <Helmet>
