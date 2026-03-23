@@ -95,7 +95,6 @@ const UrbanIntro: React.FC<IntroProps> = ({ onIntroComplete, primaryColor }) => 
     <motion.div className="fixed inset-0 z-[9999] bg-[#0f0f0f] overflow-hidden flex items-center justify-center font-sans">
 
       {/* 1. BACKGROUND NOISE & GRID */}
-      <div className="absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:100px_100px]" />
 
       {/* 2. HUGE TYPOGRAPHY (Nằm sau cùng) */}

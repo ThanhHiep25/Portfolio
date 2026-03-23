@@ -13,15 +13,15 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({
-    title = "Nguyễn Hiệp | Software Engineer",
-    description = "Khám phá Portfolio của Nguyễn Hiệp - Kỹ sư phần mềm chuyên sâu về React, Next.js, Node.js và tích hợp AI. Xem các dự án thực chiến và tương tác với trợ lý Alex AI thông minh.",
-    keywords = "Nguyễn Hiệp, Software Engineer, Portfolio, React Developer, Next.js, AI Engineer, Fullstack Developer, Web Developer Việt Nam, Frontend Developer, Backend Developer",
-    image = "/webdev-1.svg",
+    title = "Nguyễn Hiệp | Software Engineer | Full-stack Developer (ReactJS, Spring Boot)",
+    description = "Nguyễn Hiệp - Software Engineer chuyên sâu ReactJS, NextJS và Spring Boot. Xây dựng giải pháp phần mềm tối ưu, hệ thống Check-in QR và ứng dụng quản lý hiện đại.",
+    keywords = "Nguyễn Hiệp, Nguyen Hiep Dev, Software Engineer HCM, Front-end Developer ReactJS, Full-stack Developer Spring Boot, Lập trình viên Gò Vấp, IT CNTT, Web Developer Vietnam",
+    image = "https://portfolio-nguyenhiep.vercel.app/og-image.jpg",
     type = "website",
     author = "Nguyễn Hiệp"
 }) => {
     const location = useLocation();
-    const canonicalUrl = `https://portfolio-seven-roan-80.vercel.app${location.pathname}`;
+    const canonicalUrl = `https://portfolio-nguyenhiep.vercel.app${location.pathname}`;
 
     return (
         <Helmet>
@@ -30,6 +30,9 @@ const SEO: React.FC<SEOProps> = ({
             <meta name="description" content={description} />
             <meta name="keywords" content={keywords} />
             <meta name="author" content={author} />
+            <meta name="theme-color" content="#10b981" />
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
             <link rel="canonical" href={canonicalUrl} />
 
             {/* Open Graph / Facebook */}

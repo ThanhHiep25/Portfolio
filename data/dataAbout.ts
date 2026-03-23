@@ -195,7 +195,7 @@ const userAbout: UsersAboutData = [
     ],
     language: [
       { language_id: 1, language_name: "Tiếng Việt", language_level: "5" },
-      { language_id: 2, language_name: "Tiếng Anh", language_level: "3" },
+      { language_id: 2, language_name: "Tiếng Anh", language_level: "4" },
     ],
     education: [
       {
