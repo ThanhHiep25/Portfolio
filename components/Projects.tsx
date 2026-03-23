@@ -5,17 +5,17 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { mockProjects } from '../data/mockProjects';
 import { Project } from '../interfaces/user';
 // Fix: Added Github to lucide-react imports to resolve "Cannot find name 'Github'" error.
-import { 
+import {
   Github,
-  Code2, 
-  Database, 
-  Server, 
-  Layout, 
-  Globe, 
-  Box, 
-  MapPin, 
-  Zap, 
-  Smartphone, 
+  Code2,
+  Database,
+  Server,
+  Layout,
+  Globe,
+  Box,
+  MapPin,
+  Zap,
+  Smartphone,
   Monitor,
   Cpu,
   Layers,
@@ -44,8 +44,37 @@ import {
   Rocket,
   Instagram
 } from 'lucide-react';
+import Skeleton from './Skeleton';
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800";
+
+const ProjectSkeleton = ({ layout, key }: { layout: string, key?: any }) => {
+  const isFeatured = layout === 'grid';
+  return (
+    <div key={key} className={`flex flex-col rounded-[2.5rem] overflow-hidden bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 
+      ${layout === 'list' ? 'md:flex-row w-full h-auto mb-8' : 'h-full'}
+      ${isFeatured ? 'md:col-span-2' : 'col-span-1'}
+      ${layout === 'carousel' ? 'min-w-[320px] md:min-w-[400px]' : ''}
+    `}>
+      <div className={`relative overflow-hidden shrink-0 ${layout === 'list' ? 'md:w-[320px] lg:w-[400px]' : (layout === 'minimal' || layout === 'comparison' ? 'w-16 h-16 rounded-2xl' : 'h-64')} ${isFeatured ? 'md:h-[450px]' : ''}`}>
+        <Skeleton variant="rect" className="w-full h-full" />
+      </div>
+      <div className="p-8 flex flex-col flex-1">
+        <div className="flex items-start justify-between mb-4">
+          <Skeleton variant="text" height={isFeatured ? 40 : 28} width="70%" />
+          <Skeleton variant="circle" height={24} width={24} />
+        </div>
+        <Skeleton variant="text" width="90%" />
+        <Skeleton variant="text" width="60%" />
+        <div className="mt-auto flex flex-wrap gap-2 pt-6">
+          <Skeleton variant="rect" width={60} height={24} className="rounded-xl" />
+          <Skeleton variant="rect" width={80} height={24} className="rounded-xl" />
+          <Skeleton variant="rect" width={70} height={24} className="rounded-xl" />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const TECH_ICON_MAP: Record<string, React.ReactNode> = {
   'react': <Layers size={14} />,
@@ -97,7 +126,7 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
       .map(p => {
         let score = 0;
         if (p.category === project.category) score += 10;
-        const sharedTech = p.project_type.filter(t => 
+        const sharedTech = p.project_type.filter(t =>
           project.project_type.some(pt => pt.type_name === t.type_name)
         );
         score += sharedTech.length * 2;
@@ -129,7 +158,7 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
   // Update meta tags for social sharing
   const updateMetaTags = () => {
     if (typeof document === 'undefined') return;
-    
+
     // Update OG tags
     const updateMetaTag = (property: string, content: string) => {
       let element = document.querySelector(`meta[property="${property}"]`);
@@ -168,7 +197,7 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
 
   const handleShare = (platform: string) => {
     updateMetaTags();
-    
+
     // Add delay to ensure meta tags are updated
     setTimeout(() => {
       const shareUrl = shareLinks[platform as keyof typeof shareLinks];
@@ -187,28 +216,28 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
   ], [project.status]);
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
-      exit={{ opacity: 0 }} 
-      onClick={onClose} 
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
       className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl w-screen h-screen top-0 left-0"
     >
-      <motion.div 
-        initial={{ y: 50, opacity: 0, scale: 0.95 }} 
-        animate={{ y: 0, opacity: 1, scale: 1 }} 
-        exit={{ y: 50, opacity: 0, scale: 0.95 }} 
-        onClick={e => e.stopPropagation()} 
+      <motion.div
+        initial={{ y: 50, opacity: 0, scale: 0.95 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: 50, opacity: 0, scale: 0.95 }}
+        onClick={e => e.stopPropagation()}
         className="relative w-full max-w-5xl h-[85vh] bg-white dark:bg-gray-950 rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row shadow-[0_0_100px_rgba(0,0,0,0.5)] border border-white/10"
       >
-        <button 
-          onClick={onClose} 
-          className="absolute top-6 right-6 z-[210] p-3 bg-black/20 hover:bg-black/40 rounded-full text-white backdrop-blur-md transition-all shadow-lg border border-white/10" 
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6 z-[210] p-3 bg-black/20 hover:bg-black/40 rounded-full text-white backdrop-blur-md transition-all shadow-lg border border-white/10"
           aria-label="Đóng chi tiết dự án"
         >
           <X size={20} />
         </button>
-        
+
         <div className="md:w-5/12 h-64 md:h-full overflow-hidden bg-gray-100 dark:bg-gray-900 shrink-0 border-r border-gray-100 dark:border-white/5">
           <img src={project.project_img || FALLBACK_IMAGE} alt={`Hình ảnh minh họa dự án ${project.project_name}`} className="w-full h-full object-cover" />
         </div>
@@ -218,7 +247,7 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
             <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-4 inline-block">{project.category}</span>
             <h2 className="text-3xl md:text-5xl font-black text-gray-900 dark:text-white mb-6 leading-tight tracking-tighter">{project.project_name}</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-10 leading-relaxed font-medium">{project.project_des}</p>
-            
+
             {/* Tech Stats Section */}
             <div className="mb-12">
               <div className="flex items-center gap-2 mb-6">
@@ -236,7 +265,7 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
                         <span>{Math.round(level)}%</span>
                       </div>
                       <div className="h-2 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
-                        <motion.div 
+                        <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${level}%` }}
                           transition={{ duration: 1, delay: 0.2 + (i * 0.1), ease: "circOut" }}
@@ -262,23 +291,21 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
                 <div className="relative flex justify-between">
                   {timelineSteps.map((step, idx) => (
                     <div key={idx} className="flex flex-col items-center gap-3 relative z-10 bg-white dark:bg-gray-950 px-2">
-                      <motion.div 
+                      <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.5 + (idx * 0.1) }}
-                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${
-                          step.status === 'done' 
-                            ? 'bg-primary text-white' 
-                            : step.status === 'active' 
-                              ? 'bg-primary/20 text-primary animate-pulse border border-primary/50' 
+                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${step.status === 'done'
+                            ? 'bg-primary text-white'
+                            : step.status === 'active'
+                              ? 'bg-primary/20 text-primary animate-pulse border border-primary/50'
                               : 'bg-gray-100 dark:bg-white/5 text-gray-400'
-                        }`}
+                          }`}
                       >
                         {step.icon}
                       </motion.div>
-                      <span className={`text-[8px] font-black uppercase tracking-widest ${
-                        step.status === 'done' ? 'text-primary' : 'text-gray-400'
-                      }`}>
+                      <span className={`text-[8px] font-black uppercase tracking-widest ${step.status === 'done' ? 'text-primary' : 'text-gray-400'
+                        }`}>
                         {step.label}
                       </span>
                     </div>
@@ -306,7 +333,7 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
                 <Share2 size={16} className="text-primary" />
                 <h3 className="text-[10px] font-black text-gray-900 dark:text-white uppercase tracking-[0.2em]">Chia sẻ dự án</h3>
               </div>
-              
+
               {/* Share Buttons */}
               <div className="mb-6 last:mb-0">
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
@@ -397,7 +424,7 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
               <Sparkles size={16} className="text-primary" />
               <h3 className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-widest">Dự án liên quan</h3>
             </div>
-            
+
             <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar snap-x">
               {relatedProjects.map(p => (
                 <button
@@ -446,7 +473,7 @@ const ProjectCard = memo(({ project, index, onSelect, layout }: any) => {
       style={{ willChange: 'transform, opacity' }}
     >
       <div className="absolute inset-0 bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 group-hover:shadow-2xl group-hover:shadow-primary/5 transition-all duration-500" />
-      
+
       <div className={`relative overflow-hidden shrink-0 ${layout === 'list' ? 'md:w-[320px] lg:w-[400px]' : (layout === 'minimal' || layout === 'comparison' ? 'w-16 h-16 rounded-2xl' : 'h-64')} ${isFeatured ? 'md:h-[450px]' : ''}`}>
         <img src={project.project_img || FALLBACK_IMAGE} alt={`Project ${project.project_name}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
         {layout !== 'minimal' && layout !== 'comparison' && (
@@ -475,9 +502,9 @@ const ProjectCard = memo(({ project, index, onSelect, layout }: any) => {
 const TimelineItem = memo(({ project, index, onSelect }: any) => {
   const isLeft = index % 2 === 0;
   return (
-    <motion.article 
+    <motion.article
       layout="position"
-      initial={{ opacity: 0, x: isLeft ? -30 : 30 }} 
+      initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: isLeft ? -30 : 30 }}
       transition={{ duration: 0.3 }}
@@ -499,13 +526,23 @@ const Projects: React.FC<{ layout?: string; onProjectSelect?: (projectId: number
   const [filter, setFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const [loading, setLoading] = useState(true);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const categories = ['All', 'Frontend', 'Backend', 'Fullstack', 'Mobile App'];
+
+  useEffect(() => {
+    // Giả lập hiệu ứng loading
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [filter]);
 
   const handleProjectSelect = useCallback((project: Project) => {
     if (onProjectSelect) {
       window.history.pushState({}, '', `?project=${project.project_id}`);
-      window.scrollTo({top: 0, behavior: 'smooth'});
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       onProjectSelect(project.project_id);
     } else {
       setSelectedProject(project);
@@ -535,7 +572,7 @@ const Projects: React.FC<{ layout?: string; onProjectSelect?: (projectId: number
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-20">
           <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
             <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Archive & Showcase</span>
-            <h2 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white tracking-tighter leading-none mb-4">Kho dự án <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-500 to-primary bg-[length:200%_auto] animate-gradient-x">Thực chiến.</span></h2>
+            <h2 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white tracking-tighter leading-none mb-4">Kho dự án <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-500 to-primary bg-[length:200%_auto] animate-gradient-x">Thực chiến.</span></h2>
           </motion.div>
           {layout === 'carousel' && (
             <div className="flex gap-3">
@@ -554,8 +591,8 @@ const Projects: React.FC<{ layout?: string; onProjectSelect?: (projectId: number
           ))}
         </nav>
 
-        <motion.div 
-          layout 
+        <motion.div
+          layout
           className={`
             ${layout === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8' : ''}
             ${layout === 'carousel' ? 'flex gap-8 overflow-x-auto pb-12 px-2 no-scrollbar snap-x' : ''}
@@ -566,15 +603,22 @@ const Projects: React.FC<{ layout?: string; onProjectSelect?: (projectId: number
           `}
         >
           {layout === 'timeline' && <div className="absolute left-1/2 -translate-x-1/2 top-0 h-full w-px bg-gray-200 dark:bg-white/10 hidden md:block" aria-hidden="true" />}
-          <AnimatePresence mode="sync">
-            {displayedProjects.map((p, idx) => (
-              layout === 'timeline' ? (
-                <TimelineItem key={p.project_id} project={p} index={idx} onSelect={handleProjectSelect} />
-              ) : (
-                <ProjectCard key={p.project_id} project={p} index={idx} onSelect={handleProjectSelect} layout={layout} />
-              )
-            ))}
-          </AnimatePresence>
+
+          {loading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <ProjectSkeleton key={i} layout={layout} />
+            ))
+          ) : (
+            <AnimatePresence mode="sync">
+              {displayedProjects.map((p, idx) => (
+                layout === 'timeline' ? (
+                  <TimelineItem key={p.project_id} project={p} index={idx} onSelect={handleProjectSelect} />
+                ) : (
+                  <ProjectCard key={p.project_id} project={p} index={idx} onSelect={handleProjectSelect} layout={layout} />
+                )
+              ))}
+            </AnimatePresence>
+          )}
         </motion.div>
 
         {!showAll && remainingCount > 0 && layout !== 'carousel' && (

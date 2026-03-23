@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, memo } from 'react';
 import { motion, useScroll, Variants, useReducedMotion } from 'framer-motion';
 import {
@@ -16,6 +15,7 @@ import {
 } from 'lucide-react';
 import userAbout from '../data/dataAbout';
 import SlideShowSkill from '@/data/dataSkill';
+import Skeleton from './Skeleton';
 
 const FloatingIcon = memo(({ icon: Icon, color, delay, initialPos }: any) => {
   const shouldReduceMotion = useReducedMotion();
@@ -46,9 +46,15 @@ const Hero: React.FC = () => {
   const user = userAbout[0];
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const shouldReduceMotion = useReducedMotion();
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth < 1024) return;
+
+    // Simulate initial loading
+    const timer = setTimeout(() => {
+      // We still wait for image load actually
+    }, 1000);
 
     let frameId: number;
     const handleMouseMove = (e: MouseEvent) => {
@@ -61,6 +67,7 @@ const Hero: React.FC = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(frameId);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -149,8 +156,14 @@ const Hero: React.FC = () => {
           <div className="relative group w-full flex justify-center mb-10">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 z-10 rounded-2xl"></div>
 
-            <div className="w-full rounded-2xl overflow-hidden ">
-              <img src="/banner.jpg" alt="banner" className="w-full h-auto object-cover" />
+            <div className="w-full rounded-2xl overflow-hidden relative min-h-[200px] md:min-h-[400px]">
+              {!imgLoaded && <Skeleton variant="rect" className="absolute inset-0 z-10" />}
+              <img
+                src="/banner.jpg"
+                alt="banner"
+                className={`w-full h-auto object-cover transition-opacity duration-1000 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setImgLoaded(true)}
+              />
             </div>
 
             <a href={user.googleDeveloper}

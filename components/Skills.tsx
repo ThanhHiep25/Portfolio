@@ -1,5 +1,4 @@
-
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { motion, Variants } from 'framer-motion';
 import {
   Code,
@@ -19,6 +18,7 @@ import {
 } from 'lucide-react';
 import userAbout from '../data/dataAbout';
 import TechRadar from './TechRadar';
+import Skeleton from './Skeleton';
 
 const getSkillIcon = (name: string) => {
   const n = name.toLowerCase();
@@ -37,6 +37,19 @@ const getSkillIcon = (name: string) => {
   if (n.includes('mobile') || n.includes('native')) return <Smartphone className="text-indigo-500" />;
   return <Terminal className="text-primary" />;
 };
+
+const SkillCardSkeleton: React.FC = () => (
+  <div className="p-5 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col gap-3">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <Skeleton variant="rect" width={32} height={32} className="rounded-xl" />
+        <Skeleton variant="text" width={100} height={16} />
+      </div>
+      <Skeleton variant="rect" width={40} height={14} className="rounded-full" />
+    </div>
+    <Skeleton variant="rect" width="100%" height={6} className="rounded-full" />
+  </div>
+);
 
 const SkillCard: React.FC<{ name: string; level: string }> = ({ name, level }) => (
   <motion.div
@@ -69,6 +82,14 @@ const SkillCard: React.FC<{ name: string; level: string }> = ({ name, level }) =
 
 const Skills: React.FC = () => {
   const user = userAbout[0];
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, []);
 
   const skillCategories = useMemo(() => {
     const skills = user.skill;
@@ -109,9 +130,13 @@ const Skills: React.FC = () => {
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Xây dựng Giao diện (Frontend)</h3>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {skillCategories.frontend.map(skill => (
-                  <SkillCard key={skill.skill_id} name={skill.skill_name} level={skill.skill_level} />
-                ))}
+                {loading ? (
+                  Array.from({ length: 4 }).map((_, i) => <SkillCardSkeleton key={i} />)
+                ) : (
+                  skillCategories.frontend.map(skill => (
+                    <SkillCard key={skill.skill_id} name={skill.skill_name} level={skill.skill_level} />
+                  ))
+                )}
               </div>
             </motion.div>
 
@@ -121,9 +146,13 @@ const Skills: React.FC = () => {
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Hệ thống & Dữ liệu (Backend)</h3>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {skillCategories.backend.map(skill => (
-                  <SkillCard key={skill.skill_id} name={skill.skill_name} level={skill.skill_level} />
-                ))}
+                {loading ? (
+                  Array.from({ length: 4 }).map((_, i) => <SkillCardSkeleton key={i} />)
+                ) : (
+                  skillCategories.backend.map(skill => (
+                    <SkillCard key={skill.skill_id} name={skill.skill_name} level={skill.skill_level} />
+                  ))
+                )}
               </div>
             </motion.div>
           </div>
@@ -187,10 +216,10 @@ const Skills: React.FC = () => {
                       )
                     }
                     <div className="flex flex-col ml-4">
-                        <div className="font-black text-gray-900 dark:text-white group-hover:text-primary transition-colors text-base">{cert.certificate_name}</div>
-                    <div className="text-[10px] font-black text-gray-400 mt-2 uppercase tracking-[0.2em]">{cert.certificate_des} — {cert.certificate_year}</div>
+                      <div className="font-black text-gray-900 dark:text-white group-hover:text-primary transition-colors text-base">{cert.certificate_name}</div>
+                      <div className="text-[10px] font-black text-gray-400 mt-2 uppercase tracking-[0.2em]">{cert.certificate_des} — {cert.certificate_year}</div>
                     </div>
-                  
+
                   </div>
 
                 </motion.a>
