@@ -1,111 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.nguyenhiep.dev/</loc>
-    <lastmod>2026-01-26</lastmod>
+    <loc>https://nguyenhiep.dev/</loc>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.nguyenhiep.dev/template</loc>
-    <lastmod>2026-01-26</lastmod>
+    <loc>https://nguyenhiep.dev/about</loc>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.nguyenhiep.dev/project/1</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://nguyenhiep.dev/projects</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.nguyenhiep.dev/project/2</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://nguyenhiep.dev/blog</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.nguyenhiep.dev/project/3</loc>
-    <lastmod>2026-01-26</lastmod>
+    <loc>https://nguyenhiep.dev/blog/react-performance-optimization</loc>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.nguyenhiep.dev/project/4</loc>
-    <lastmod>2026-01-26</lastmod>
+    <loc>https://nguyenhiep.dev/blog/atomic-design-architecture</loc>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.nguyenhiep.dev/project/5</loc>
-    <lastmod>2026-01-26</lastmod>
+    <loc>https://nguyenhiep.dev/blog/future-of-frontend-ai</loc>
+    <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.nguyenhiep.dev/project/6</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/7</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/10</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/11</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/12</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/13</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/16</loc>
-    <lastmod>2025-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/17</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/18</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/19</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.nguyenhiep.dev/project/20</loc>
-    <lastmod>2026-01-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://nguyenhiep.dev/contact</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

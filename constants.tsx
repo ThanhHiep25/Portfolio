@@ -75,9 +75,10 @@ export const SOCIALS: SocialLink[] = [
 ];
 
 export const NAVIGATION = [
-  { name: "Trang chủ", href: "#home" },
-  { name: "Giới thiệu", href: "#about" },
-  { name: "Dự án", href: "#projects" },
-  { name: "Kỹ năng", href: "#skills" },
-  { name: "Liên hệ", href: "#contact" },
+  { name: "Trang chủ", href: "/" },
+  { name: "Giới thiệu", href: "/about" },
+  { name: "Dự án", href: "/projects" },
+  { name: "Kỹ năng", href: "/skills" },
+  { name: "Blog", href: "/blog" },
+  { name: "Liên hệ", href: "/contact" },
 ];
