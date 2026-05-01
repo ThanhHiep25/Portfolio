@@ -48,10 +48,10 @@ import Skeleton from './Skeleton';
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800";
 
-const ProjectSkeleton = ({ layout, key }: { layout: string, key?: any }) => {
+const ProjectSkeleton: React.FC<{ layout: string }> = ({ layout }) => {
   const isFeatured = layout === 'grid';
   return (
-    <div key={key} className={`flex flex-col rounded-[2.5rem] overflow-hidden bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 
+    <div className={`flex flex-col rounded-[2.5rem] overflow-hidden bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 
       ${layout === 'list' ? 'md:flex-row w-full h-auto mb-8' : 'h-full'}
       ${isFeatured ? 'md:col-span-2' : 'col-span-1'}
       ${layout === 'carousel' ? 'min-w-[320px] md:min-w-[400px]' : ''}
@@ -296,10 +296,10 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.5 + (idx * 0.1) }}
                         className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${step.status === 'done'
-                            ? 'bg-primary text-white'
-                            : step.status === 'active'
-                              ? 'bg-primary/20 text-primary animate-pulse border border-primary/50'
-                              : 'bg-gray-100 dark:bg-white/5 text-gray-400'
+                          ? 'bg-primary text-white'
+                          : step.status === 'active'
+                            ? 'bg-primary/20 text-primary animate-pulse border border-primary/50'
+                            : 'bg-gray-100 dark:bg-white/5 text-gray-400'
                           }`}
                       >
                         {step.icon}
@@ -316,7 +316,7 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void; onSelect: 
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               {project.project_demo && (
-                <a href={project.project_demo} target="_blank" className="flex-1 py-5 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] text-center shadow-lg shadow-primary/20 hover:bg-primary-hover active:scale-95 transition-all flex items-center justify-center gap-2">
+                <a href={project.project_demo} target="_blank" className="flex-1 py-5 bg-primary text-gray-950 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] text-center shadow-lg shadow-primary/20 hover:bg-primary-hover active:scale-95 transition-all flex items-center justify-center gap-2">
                   Live Demo <ExternalLink size={14} />
                 </a>
               )}
@@ -474,11 +474,22 @@ const ProjectCard = memo(({ project, index, onSelect, layout }: any) => {
     >
       <div className="absolute inset-0 bg-white dark:bg-gray-900 border border-gray-100 dark:border-white/5 group-hover:shadow-2xl group-hover:shadow-primary/5 transition-all duration-500" />
 
-      <div className={`relative overflow-hidden shrink-0 ${layout === 'list' ? 'md:w-[320px] lg:w-[400px]' : (layout === 'minimal' || layout === 'comparison' ? 'w-16 h-16 rounded-2xl' : 'h-64')} ${isFeatured ? 'md:h-[450px]' : ''}`}>
-        <img src={project.project_img || FALLBACK_IMAGE} alt={`Project ${project.project_name}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+      <div className={`relative overflow-hidden shrink-0 ${layout === 'list' ? 'md:w-[320px] lg:w-[400px]' : (layout === 'minimal' || layout === 'comparison' ? 'w-40 h-20 rounded-xl' : 'h-64')} ${isFeatured ? 'md:h-[450px]' : ''}`}>
+        <img
+          src={project.project_img || FALLBACK_IMAGE}
+          alt={`Project ${project.project_name}`}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+        />
         {layout !== 'minimal' && layout !== 'comparison' && (
-          <div className="absolute top-6 left-6 z-20"><span className="px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md text-white text-[9px] font-black uppercase tracking-widest border border-white/20">{project.category}</span></div>
+          <div className="absolute top-6 left-6 z-20">
+            <span className="px-3 py-1.5 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md text-white text-[9px] font-black uppercase tracking-widest border border-white/20">
+              {project.category}
+            </span>
+          </div>
         )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>
 
       <div className="p-8 flex flex-col flex-1 relative z-10 min-w-0">
@@ -489,7 +500,7 @@ const ProjectCard = memo(({ project, index, onSelect, layout }: any) => {
         <p className="text-sm text-gray-500 dark:text-gray-400 font-medium leading-relaxed mb-6 line-clamp-2">{project.project_des}</p>
         <div className="mt-auto flex flex-wrap gap-2">
           {project.project_type.slice(0, 4).map(t => (
-            <span key={t.type_id} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-50 dark:bg-white/5 text-[9px] font-black text-gray-400 uppercase tracking-tighter">
+            <span key={t.type_id} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 dark:bg-white/5 text-[9px] font-black text-gray-700 dark:text-gray-300 uppercase tracking-tighter">
               {getTechIcon(t.type_name)}{t.type_name}
             </span>
           ))}
@@ -531,11 +542,11 @@ const Projects: React.FC<{ layout?: string; onProjectSelect?: (projectId: number
   const categories = ['All', 'Frontend', 'Backend', 'Fullstack', 'Mobile App'];
 
   useEffect(() => {
-    // Giả lập hiệu ứng loading
+    // Giảm thời gian loading để trải nghiệm mượt mà hơn
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, 600);
     return () => clearTimeout(timer);
   }, [filter]);
 
@@ -571,8 +582,10 @@ const Projects: React.FC<{ layout?: string; onProjectSelect?: (projectId: number
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-20">
           <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Archive & Showcase</span>
-            <h2 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white tracking-tighter leading-none mb-4">Kho dự án <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-500 to-primary bg-[length:200%_auto] animate-gradient-x">Thực chiến.</span></h2>
+            <span className="text-primary font-black uppercase tracking-[0.6em] text-[10px] mb-4 block">Archive & Showcase</span>
+            <h2 className="text-3xl md:text-6xl font-black text-gray-900 dark:text-white tracking-tighter leading-none uppercase">
+              Kho dự án <br /> <span className="text-outline text-transparent opacity-20 italic">Thực chiến.</span>
+            </h2>
           </motion.div>
           {layout === 'carousel' && (
             <div className="flex gap-3">
@@ -584,7 +597,7 @@ const Projects: React.FC<{ layout?: string; onProjectSelect?: (projectId: number
 
         <nav className="flex items-center gap-2 mb-16 overflow-x-auto pb-4 no-scrollbar" aria-label="Lọc dự án">
           {categories.map(cat => (
-            <button key={cat} onClick={() => { setFilter(cat); setShowAll(false); }} className={`relative px-8 py-3.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all will-change-colors ${filter === cat ? 'text-white' : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'}`}>
+            <button key={cat} onClick={() => { setFilter(cat); setShowAll(false); }} className={`relative px-8 py-3.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all will-change-colors ${filter === cat ? 'text-gray-950 dark:text-white' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}>
               <span className="relative z-10">{cat}</span>
               {filter === cat && <motion.div layoutId="activeCat" className="absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/25" transition={{ type: "spring", stiffness: 300, damping: 30 }} />}
             </button>
@@ -606,10 +619,10 @@ const Projects: React.FC<{ layout?: string; onProjectSelect?: (projectId: number
 
           {loading ? (
             Array.from({ length: 6 }).map((_, i) => (
-              <ProjectSkeleton key={i} layout={layout} />
+              <ProjectSkeleton key={`skeleton-${i}`} layout={layout} />
             ))
           ) : (
-            <AnimatePresence mode="sync">
+            <AnimatePresence mode="popLayout" initial={false}>
               {displayedProjects.map((p, idx) => (
                 layout === 'timeline' ? (
                   <TimelineItem key={p.project_id} project={p} index={idx} onSelect={handleProjectSelect} />

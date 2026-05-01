@@ -61,7 +61,7 @@ const Contact: React.FC = () => {
       // 1. Tạo lời cảm ơn cá nhân hóa bằng Gemini AI
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
+        model: process.env.OPENROUTER_MODEL,
         contents: `Khách hàng tên ${formData.name} vừa gửi tin nhắn: "${formData.message}". Hãy viết 1 câu cảm ơn cực kỳ chuyên nghiệp, ngắn gọn (dưới 20 từ) để Alex gửi lại họ ngay lập tức. Xưng Alex, gọi Bạn.`,
       });
       setPersonalizedReply(response.text || `Cảm ơn ${formData.name}, Alex đã nhận được thông tin và sẽ phản hồi bạn sớm nhất!`);
@@ -97,10 +97,9 @@ const Contact: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <span className="text-primary font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-[10px] mb-4 block">Get in touch</span>
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-gray-900 dark:text-white mb-6 md:mb-8 tracking-tighter leading-tight sm:leading-none">
-              Hãy cùng tạo nên <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Điều Tuyệt Vời.</span>
+            <span className="text-primary font-black uppercase tracking-[0.6em] text-[10px] mb-4 block">Get in touch</span>
+            <h2 className="text-3xl md:text-6xl font-black text-gray-900 dark:text-white tracking-tighter uppercase mb-6 md:mb-8">
+
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mb-8 md:mb-12 text-base sm:text-xl leading-relaxed font-medium max-w-lg">
               Tôi luôn sẵn sàng lắng nghe ý tưởng của bạn. Gửi tin nhắn ngay để nhận phản hồi tự động từ AI của tôi nhé!
@@ -134,6 +133,7 @@ const Contact: React.FC = () => {
                 </div>
                 <button
                   onClick={handleCopyEmail}
+                  aria-label="Sao chép địa chỉ email"
                   className="p-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-400 hover:text-primary hover:bg-primary/10 transition-all"
                 >
                   <AnimatePresence mode="wait">

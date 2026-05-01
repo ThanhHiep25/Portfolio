@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.nguyenhiep.dev/sitemap.xml
+Sitemap: https://nguyenhiep.dev/sitemap.xml

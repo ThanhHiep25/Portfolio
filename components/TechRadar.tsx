@@ -1,10 +1,10 @@
 // Fix: Added React import to resolve "Cannot find namespace 'React'" errors.
 import React, { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Layers, 
-  Server, 
-  Wrench, 
+import {
+  Layers,
+  Server,
+  Wrench,
   Palette,
   Info
 } from 'lucide-react';
@@ -48,7 +48,7 @@ const TechRadar: React.FC<TechRadarProps> = ({ skills }) => {
     const blips: Blip[] = skills.map((skill, index) => {
       const level = parseInt(skill.skill_level);
       const name = skill.skill_name.toLowerCase();
-      
+
       let quadrantIdx = 0;
       if (name.includes('node') || name.includes('java') || name.includes('golang') || name.includes('firebase') || name.includes('mongo') || name.includes('api') || name.includes('socket')) quadrantIdx = 1;
       else if (name.includes('git') || name.includes('docker')) quadrantIdx = 2;
@@ -56,7 +56,7 @@ const TechRadar: React.FC<TechRadarProps> = ({ skills }) => {
       else quadrantIdx = 0;
 
       const quad = quadrants[quadrantIdx];
-      
+
       let ringIdx = 0;
       if (level >= 90) ringIdx = 0;
       else if (level >= 75) ringIdx = 1;
@@ -64,7 +64,7 @@ const TechRadar: React.FC<TechRadarProps> = ({ skills }) => {
 
       const innerR = ringIdx === 0 ? 0 : rings[ringIdx - 1].radius;
       const outerR = rings[ringIdx].radius;
-      
+
       // Random position within its ring and quadrant segment
       const r = innerR + Math.random() * (outerR - innerR - 10) + 5;
       const angle = quad.startAngle + 0.1 + Math.random() * (quad.endAngle - quad.startAngle - 0.2);
@@ -153,12 +153,11 @@ const TechRadar: React.FC<TechRadarProps> = ({ skills }) => {
             <AnimatePresence>
               {hoveredBlip?.id === blip.id && (
                 <motion.circle
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, scale: 0.5, r: 18 }}
+                  animate={{ opacity: 1, scale: 1, r: 18 }}
                   exit={{ opacity: 0, scale: 0.5 }}
                   cx={blip.x}
                   cy={blip.y}
-                  r={18}
                   className="fill-primary/10 stroke-primary/20"
                   strokeWidth="1"
                 />
@@ -170,7 +169,7 @@ const TechRadar: React.FC<TechRadarProps> = ({ skills }) => {
               <motion.circle
                 cx={blip.x}
                 cy={blip.y}
-                r={12}
+                initial={{ r: 12, scale: 1, opacity: 0.6 }}
                 className="fill-primary/20"
                 animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0.1, 0.6] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
@@ -181,7 +180,8 @@ const TechRadar: React.FC<TechRadarProps> = ({ skills }) => {
             <motion.circle
               cx={blip.x}
               cy={blip.y}
-              animate={{ 
+              initial={{ r: 4.5 }}
+              animate={{
                 r: hoveredBlip?.id === blip.id ? 8 : 4.5,
                 fill: hoveredBlip?.id === blip.id ? 'var(--primary-color)' : 'rgba(var(--primary-rgb), 0.5)',
                 stroke: hoveredBlip?.id === blip.id ? '#ffffff' : 'transparent',
@@ -202,10 +202,10 @@ const TechRadar: React.FC<TechRadarProps> = ({ skills }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
             className="absolute z-20 pointer-events-none bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-2xl rounded-2xl p-4 min-w-[180px] backdrop-blur-md bg-opacity-95 dark:bg-opacity-95"
-            style={{ 
-                left: hoveredBlip.x > 250 ? 'auto' : hoveredBlip.x + 30, 
-                right: hoveredBlip.x > 250 ? (600 - hoveredBlip.x) + 30 : 'auto',
-                top: hoveredBlip.y - 50 
+            style={{
+              left: hoveredBlip.x > 250 ? 'auto' : hoveredBlip.x + 30,
+              right: hoveredBlip.x > 250 ? (600 - hoveredBlip.x) + 30 : 'auto',
+              top: hoveredBlip.y - 50
             }}
           >
             <div className="flex items-center gap-2 mb-2">
@@ -229,12 +229,12 @@ const TechRadar: React.FC<TechRadarProps> = ({ skills }) => {
 
       <div className="mt-8 flex justify-center gap-8">
         <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full border border-gray-300 border-dashed"></div>
-            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Độ phủ công nghệ</span>
+          <div className="w-2 h-2 rounded-full border border-gray-300 border-dashed"></div>
+          <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Độ phủ công nghệ</span>
         </div>
         <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-primary/60"></div>
-            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Tech Blips</span>
+          <div className="w-2 h-2 rounded-full bg-primary/60"></div>
+          <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Tech Blips</span>
         </div>
       </div>
     </div>

@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import SettingsPanel from './components/SettingsPanel';
 import { AppSettings } from './types';
@@ -7,8 +6,22 @@ import { THEME_COLORS } from './constants';
 import { motion } from 'framer-motion';
 import IntroScreen from './components/IntroScreen';
 import PortfolioPage from './pages/PortfolioPage';
-import ProjectPage from './pages/ProjectPage';
-import TemplatePage from './pages/TemplatePage';
+import Navbar from './components/Navbar';
+import CustomCursor from './components/CustomCursor';
+
+// Lazy Load heavy/non-critical pages
+const ProjectPage = lazy(() => import('./pages/ProjectPage'));
+const TemplatePage = lazy(() => import('./pages/TemplatePage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const BlogDetailPage = lazy(() => import('./pages/BlogDetailPage'));
+const AIChat = lazy(() => import('./components/AIChat'));
+
+// Loading component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+    <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
 const App: React.FC = () => {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
@@ -157,31 +170,43 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 theme-transition relative overflow-hidden">
+      <CustomCursor />
       {showIntro && <IntroScreen onIntroComplete={handleIntroComplete} primaryColor={THEME_COLORS[settings.primaryColor]?.hex} />}
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <PortfolioPage
-              settings={settings}
-              updateSettings={updateSettings}
-              toggleSettings={toggleSettings}
-            />
-          }
-        />
-        <Route
-          path="/template"
-          element={
-            <TemplatePage
-              settings={settings}
-              updateSettings={updateSettings}
-              toggleSettings={toggleSettings}
-            />
-          }
-        />
-        <Route path="/project/:id" element={<ProjectPage />} />
-      </Routes>
+      {!showIntro && <Navbar toggleSettings={toggleSettings} />}
+
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<PortfolioPage settings={settings} updateSettings={updateSettings} toggleSettings={toggleSettings} />} />
+          <Route path="/about" element={<PortfolioPage settings={settings} updateSettings={updateSettings} toggleSettings={toggleSettings} />} />
+          <Route path="/projects" element={<PortfolioPage settings={settings} updateSettings={updateSettings} toggleSettings={toggleSettings} />} />
+          <Route path="/skills" element={<PortfolioPage settings={settings} updateSettings={updateSettings} toggleSettings={toggleSettings} />} />
+          <Route path="/contact" element={<PortfolioPage settings={settings} updateSettings={updateSettings} toggleSettings={toggleSettings} />} />
+          <Route
+            path="/template"
+            element={
+              <TemplatePage
+                settings={settings}
+                updateSettings={updateSettings}
+                toggleSettings={toggleSettings}
+              />
+            }
+          />
+          <Route
+            path="/blog"
+            element={
+              <BlogPage
+                settings={settings}
+                toggleSettings={toggleSettings}
+              />
+            }
+          />
+          <Route path="/blog/:slug" element={<BlogDetailPage />} />
+          <Route path="/project/:id" element={<ProjectPage />} />
+        </Routes>
+
+        {!showIntro && <AIChat />}
+      </Suspense>
 
       <SettingsPanel
         isOpen={isSettingsOpen}

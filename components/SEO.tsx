@@ -10,18 +10,22 @@ interface SEOProps {
     image?: string;
     type?: 'website' | 'article' | 'profile';
     author?: string;
+    schema?: any;
 }
 
 const SEO: React.FC<SEOProps> = ({
-    title = "Nguyễn Hiệp | Software Engineer | Full-stack Developer (ReactJS, Spring Boot)",
+    title = "Nguyễn Hiệp | Software Engineer | Full-stack Developer",
     description = "Nguyễn Hiệp - Software Engineer chuyên sâu ReactJS, NextJS và Spring Boot. Xây dựng giải pháp phần mềm tối ưu, hệ thống Check-in QR và ứng dụng quản lý hiện đại.",
-    keywords = "Nguyễn Hiệp, Nguyen Hiep Dev, Software Engineer HCM, Front-end Developer ReactJS, Full-stack Developer Spring Boot, Lập trình viên Gò Vấp, IT CNTT, Web Developer Vietnam",
-    image = "https://www.nguyenhiep.dev/og-image.jpg",
+    keywords = "Nguyễn Hiệp, nguyen hiep, nguyễn hiệp, nguyen hiep dev, nguyen thanh hiep, Software Engineer HCM, Front-end Developer ReactJS, Full-stack Developer Spring Boot, IT CNTT, Web Developer Vietnam",
+    image = "https://nguyenhiep.dev/og-image.jpg",
     type = "website",
-    author = "Nguyễn Hiệp"
+    author = "Nguyễn Hiệp",
+    schema
 }) => {
     const location = useLocation();
-    const canonicalUrl = `https://www.nguyenhiep.dev${location.pathname}`;
+    // Consolidate main portfolio sections to the root domain to avoid duplicate content penalties
+    const isMainSection = ['/about', '/projects', '/skills', '/contact'].includes(location.pathname);
+    const canonicalUrl = isMainSection ? 'https://nguyenhiep.dev/' : `https://nguyenhiep.dev${location.pathname === '/' ? '' : location.pathname}`;
 
     return (
         <Helmet>
@@ -31,8 +35,6 @@ const SEO: React.FC<SEOProps> = ({
             <meta name="keywords" content={keywords} />
             <meta name="author" content={author} />
             <meta name="theme-color" content="#10b981" />
-            <meta name="apple-mobile-web-app-capable" content="yes" />
-            <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
             <link rel="canonical" href={canonicalUrl} />
 
             {/* Open Graph / Facebook */}
@@ -48,6 +50,13 @@ const SEO: React.FC<SEOProps> = ({
             <meta property="twitter:title" content={title} />
             <meta property="twitter:description" content={description} />
             <meta property="twitter:image" content={image} />
+
+            {/* Structured Data */}
+            {schema && (
+                <script type="application/ld+json">
+                    {JSON.stringify(schema)}
+                </script>
+            )}
         </Helmet>
     );
 };
