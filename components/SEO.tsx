@@ -15,9 +15,9 @@ interface SEOProps {
 
 const SEO: React.FC<SEOProps> = ({
     title = "Nguyễn Hiệp | Software Engineer | Full-stack Developer",
-    description = "Nguyễn Hiệp - Software Engineer chuyên sâu ReactJS, NextJS và Spring Boot. Xây dựng giải pháp phần mềm tối ưu, hệ thống Check-in QR và ứng dụng quản lý hiện đại.",
+    description = "Nguyễn Hiệp - Software Engineer. Xây dựng giải pháp phần mềm tối ưu, website, app và ứng dụng quản lý hiện đại.",
     keywords = "Nguyễn Hiệp, nguyen hiep, nguyễn hiệp, nguyen hiep dev, nguyen thanh hiep, Software Engineer HCM, Front-end Developer ReactJS, Full-stack Developer Spring Boot, IT CNTT, Web Developer Vietnam",
-    image = "https://nguyenhiep.dev/og-image.jpg",
+    image = "https://nguyenhiep.dev/let-your-dreams-be-your-wings.png",
     type = "website",
     author = "Nguyễn Hiệp",
     schema
